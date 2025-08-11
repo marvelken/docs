@@ -5,14 +5,19 @@
   "logo": {
     "light": "/logo/light-logo.png",
     "dark": "/logo/dark-logo.png"
-
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.png",
   "colors": {
     "primary": "#2563EB",
     "light": "#3B82F6",
     "dark": "#1D4ED8"
   },
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "../index.html"
+    }
+  ],
   "navigation": {
     "tabs": [
       {
