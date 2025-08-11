@@ -1,0 +1,233 @@
+---
+title: "Grok-4 Integration"
+description: "Integrate Grok-4's advanced reasoning capabilities with Qwen CLI"
+---
+
+# Grok-4 Integration
+
+Grok-4 represents the latest advancement in AI reasoning and code generation. This guide covers how to integrate Grok-4 with your development workflow through various APIs and tools.
+
+## Overview
+
+Grok-4 excels at:
+- Advanced reasoning and problem-solving
+- Complex code generation and optimization
+- Multi-step workflow planning
+- Technical analysis and debugging
+- System architecture design
+
+## Quick Setup
+
+<Steps>
+  <Step title="Get API Access">
+    Access Grok-4 through supported providers:
+    - **OpenRouter**: Most convenient for multi-model access
+    - **Direct xAI API**: For dedicated Grok access
+  </Step>
+  
+  <Step title="Configure Qwen CLI">
+    ```bash
+    qwen config set api_key "your-api-key"
+    qwen config set base_url "https://openrouter.ai/api/v1"
+    qwen config set model "x-ai/grok-4"
+    ```
+  </Step>
+  
+  <Step title="Test Integration">
+    ```bash
+    qwen "Explain the architecture of a distributed microservices system"
+    ```
+  </Step>
+</Steps>
+
+## Key Features
+
+<CardGroup cols={2}>
+  <Card title="Advanced Reasoning" icon="brain">
+    Superior logical reasoning and problem decomposition
+  </Card>
+  <Card title="Code Architecture" icon="building">
+    Design complex system architectures and patterns
+  </Card>
+  <Card title="Performance Analysis" icon="chart-bar">
+    Analyze and optimize code performance bottlenecks
+  </Card>
+  <Card title="Multi-Language Support" icon="globe">
+    Expert-level support across programming languages
+  </Card>
+</CardGroup>
+
+## Usage Examples
+
+### System Design
+
+```bash
+qwen "Design a scalable e-commerce platform architecture with microservices, including payment processing, inventory management, and user authentication"
+```
+
+### Code Optimization
+
+```bash
+qwen "Analyze this algorithm's time complexity and suggest optimizations for better performance"
+```
+
+### Debugging Complex Issues
+
+```bash
+qwen "Help me debug this distributed system issue where messages are getting lost between services"
+```
+
+## API Integration
+
+### Direct API Usage
+
+```javascript
+const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${API_KEY}`,
+    'Content-Type': 'application/json',
+    'HTTP-Referer': 'https://your-domain.com'
+  },
+  body: JSON.stringify({
+    model: 'x-ai/grok-4',
+    messages: [
+      {
+        role: 'user', 
+        content: 'Your complex reasoning task here'
+      }
+    ],
+    temperature: 0.1,
+    max_tokens: 4096
+  })
+});
+```
+
+### Python Integration
+
+```python
+import openai
+
+client = openai.OpenAI(
+    base_url="https://openrouter.ai/api/v1",
+    api_key="your-openrouter-key"
+)
+
+response = client.chat.completions.create(
+    model="x-ai/grok-4",
+    messages=[
+        {"role": "user", "content": "Your prompt here"}
+    ],
+    temperature=0.1
+)
+```
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Complex Reasoning Tasks">
+    - Provide detailed context and constraints
+    - Break down multi-part problems clearly
+    - Ask for step-by-step explanations when needed
+  </Accordion>
+  
+  <Accordion title="Code Generation">
+    - Specify target frameworks and libraries
+    - Include performance and scalability requirements
+    - Request documentation and testing strategies
+  </Accordion>
+  
+  <Accordion title="System Design">
+    - Clearly define scale and requirements
+    - Mention technology stack preferences
+    - Ask for trade-off analysis between options
+  </Accordion>
+</AccordionGroup>
+
+## Performance Characteristics
+
+| Aspect | Grok-4 Strength |
+|--------|-----------------|
+| Reasoning Depth | Excellent for complex, multi-step problems |
+| Code Quality | High-quality, well-structured output |
+| Architecture Design | Superior system design capabilities |
+| Context Handling | Maintains context across long conversations |
+| Performance Analysis | Deep understanding of optimization strategies |
+
+## Pricing and Limits
+
+<Note>
+Pricing varies by provider. Check OpenRouter or xAI directly for current rates.
+</Note>
+
+- **Typical Range**: $5-15 per 1M tokens
+- **Context Window**: Up to 128k tokens
+- **Rate Limits**: Vary by provider and subscription tier
+
+## Common Use Cases
+
+### Enterprise Development
+
+```bash
+qwen "Design a microservices architecture for a financial trading platform with real-time data processing, risk management, and regulatory compliance"
+```
+
+### Performance Optimization
+
+```bash
+qwen "Analyze this database query performance and suggest indexing strategies and query optimizations"
+```
+
+### Technical Architecture Review
+
+```bash
+qwen "Review this system architecture for scalability issues and suggest improvements for handling 10x traffic growth"
+```
+
+## Integration with Development Workflow
+
+<Tabs>
+  <Tab title="Code Review">
+    Use Grok-4 for comprehensive code reviews:
+    ```bash
+    qwen "Review this pull request for security vulnerabilities, performance issues, and architectural concerns"
+    ```
+  </Tab>
+  
+  <Tab title="Technical Planning">
+    Leverage for project planning:
+    ```bash
+    qwen "Create a technical roadmap for migrating this monolith to microservices over 6 months"
+    ```
+  </Tab>
+  
+  <Tab title="Problem Solving">
+    Complex debugging and analysis:
+    ```bash
+    qwen "Investigate why this distributed system has latency spikes during peak hours"
+    ```
+  </Tab>
+</Tabs>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Advanced Configuration"
+    icon="gear"
+    href="/kimi-k2/api-examples"
+  >
+    Explore advanced API configuration options
+  </Card>
+  <Card
+    title="Troubleshooting"
+    icon="wrench"
+    href="/kimi-k2/troubleshooting"
+  >
+    Common issues and solutions
+  </Card>
+</CardGroup>
+
+<Warning>
+Grok-4 is optimized for complex reasoning tasks. For simple code generation or quick answers, consider using Kimi K2 or Qwen 3 Coder for better cost-effectiveness.
+</Warning>

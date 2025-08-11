@@ -1,0 +1,238 @@
+---
+title: "Grok 4 Integration"
+description: ""
+---
+
+<Tip>
+**First-time setup?** Make sure to authenticate with the Grok 4 model before using. Run `qwen auth` and select `x-ai/grok-4` as your model, or visit our [Authentication guide](/authentication) for detailed setup instructions.
+</Tip>
+
+Grok 4 represents the pinnacle of AI reasoning and analytical capabilities. Unlike other models focused on code generation or autonomous execution, Grok 4 excels at complex problem-solving, system architecture design, and deep technical analysis.
+
+## Core Strengths
+
+<CardGroup cols={2}>
+  <Card title="Advanced Reasoning" icon="brain">
+    Superior logical reasoning and complex problem decomposition
+  </Card>
+  <Card title="System Architecture" icon="building">
+    Exceptional at designing scalable, enterprise-grade architectures
+  </Card>
+  <Card title="Technical Analysis" icon="microscope">
+    Deep analysis of performance, security, and scalability concerns
+  </Card>
+  <Card title="Strategic Planning" icon="chess">
+    Long-term technical planning and decision-making support
+  </Card>
+</CardGroup>
+
+## When to Use Grok 4
+
+### Perfect Use Cases
+
+<AccordionGroup>
+  <Accordion title="System Architecture Design">
+    **Ideal for**: Complex system design and architectural decisions
+    
+    ```bash
+    qwen --model x-ai/grok-4 \
+         "Design a microservices architecture for a fintech platform handling 1M+ transactions daily with strict compliance requirements"
+    ```
+    
+    **What you get**:
+    - Comprehensive architecture diagrams
+    - Technology stack recommendations
+    - Scalability considerations
+    - Security and compliance strategies
+    - Performance optimization plans
+    - Risk assessment and mitigation
+  </Accordion>
+  
+  <Accordion title="Technical Planning">
+    **Ideal for**: Strategic technical decisions and roadmaps
+    
+    ```bash
+    qwen --model x-ai/grok-4 \
+         "Create a 2-year technical roadmap for migrating our monolithic e-commerce platform to cloud-native microservices"
+    ```
+    
+    **Deliverables**:
+    - Phased migration strategy
+    - Risk assessment at each phase
+    - Resource requirements
+    - Timeline and milestones
+    - Success metrics and KPIs
+    - Contingency planning
+  </Accordion>
+</AccordionGroup>
+
+## Key Capabilities
+
+### Architecture Design
+
+<Tabs>
+  <Tab title="Microservices">
+    ```bash
+    qwen --model x-ai/grok-4 \
+         "Design a microservices architecture for a social media platform with real-time features, handling 10M users"
+    ```
+    
+    **Generated architecture includes**:
+    - Service decomposition strategy
+    - Inter-service communication patterns
+    - Data consistency strategies
+    - Deployment and scaling plans
+    - Monitoring and observability
+    - Security and authentication
+  </Tab>
+  
+  <Tab title="Data Architecture">
+    ```bash
+    qwen --model x-ai/grok-4 \
+         "Design a data architecture for real-time analytics on e-commerce transactions with ML-driven recommendations"
+    ```
+    
+    **Components designed**:
+    - Data pipeline architecture
+    - Storage strategy (OLTP/OLAP)
+    - Real-time processing systems
+    - ML model serving infrastructure
+    - Data governance and quality
+    - Privacy and compliance measures
+  </Tab>
+  
+  <Tab title="Cloud Architecture">
+    ```bash
+    qwen --model x-ai/grok-4 \
+         "Design AWS architecture for a multi-tenant SaaS application with global distribution and 99.99% uptime requirement"
+    ```
+    
+    **AWS architecture includes**:
+    - Multi-region deployment strategy
+    - Auto-scaling configurations
+    - Disaster recovery planning
+    - Cost optimization strategies
+    - Security and compliance setup
+    - Monitoring and alerting systems
+  </Tab>
+</Tabs>
+
+## Advanced Examples
+
+### Enterprise System Design
+
+```bash
+qwen --model x-ai/grok-4 \
+     "Design a complete enterprise system for a healthcare organization including:
+     - Patient management system
+     - Electronic health records
+     - Appointment scheduling
+     - Billing and insurance processing
+     - Compliance with HIPAA and other regulations
+     - Integration with external systems
+     - Mobile applications for patients and staff
+     - Analytics and reporting dashboard"
+```
+
+**Comprehensive solution includes**:
+- Detailed system architecture
+- Database design and relationships
+- Security and privacy measures
+- Integration patterns
+- Compliance framework
+- User experience design
+- Implementation roadmap
+- Testing strategies
+
+### Performance Optimization
+
+<CardGroup cols={2}>
+  <Card title="Database Optimization" icon="database">
+    ```bash
+    qwen --model x-ai/grok-4 \
+         "Analyze and optimize database performance for high-traffic application with complex queries"
+    ```
+  </Card>
+  <Card title="Application Scaling" icon="arrows-up-to-line">
+    ```bash
+    qwen --model x-ai/grok-4 \
+         "Design scaling strategy for application experiencing 10x growth in user base"
+    ```
+  </Card>
+</CardGroup>
+
+## Integration Patterns
+
+### Sequential Analysis
+
+Use Grok 4 for planning, then other models for implementation:
+
+<Steps>
+  <Step title="Architecture Planning">
+    ```bash
+    # Use Grok 4 for high-level design
+    qwen --model x-ai/grok-4 \
+         "Design complete system architecture" > architecture.md
+    ```
+  </Step>
+  
+  <Step title="Implementation Planning">
+    ```bash
+    # Break down into implementable components
+    qwen --model x-ai/grok-4 \
+         --context architecture.md \
+         "Create detailed implementation plan" > implementation.md
+    ```
+  </Step>
+  
+  <Step title="Code Generation">
+    ```bash
+    # Use Kimi K2 for autonomous implementation
+    qwen --model moonshotai/kimi-k2 \
+         --context implementation.md \
+         "Implement the user service component"
+    ```
+  </Step>
+</Steps>
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Effective Prompting">
+    **Provide comprehensive context**:
+    - Business requirements and constraints
+    - Current system limitations
+    - Performance and scale requirements
+    - Compliance and security needs
+    - Budget and timeline constraints
+    
+    **Example**:
+    ```bash
+    qwen --model x-ai/grok-4 \
+         "Our e-commerce platform currently handles 100K daily orders using a monolithic architecture on AWS. 
+         We're experiencing performance issues during peak times and need to scale to 1M daily orders within 12 months.
+         
+         Constraints:
+         - Budget: $50K/month infrastructure
+         - Team: 8 developers, 2 DevOps engineers
+         - Compliance: PCI DSS required
+         - Timeline: 12-month migration window
+         
+         Design a migration strategy and target architecture."
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Cost Optimization
+
+<Note>
+Grok 4 is the most expensive model but provides exceptional value for complex reasoning tasks that would otherwise require extensive consulting or multiple iterations with other models.
+</Note>
+
+**Use Grok 4 efficiently**:
+- For high-level architecture and planning
+- When deep analysis is needed
+- For strategic technical decisions
+- To avoid costly architectural mistakes
+
+

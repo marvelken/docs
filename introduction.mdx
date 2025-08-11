@@ -1,0 +1,77 @@
+---
+title: "Welcome to Qwen CLI"
+description: "Open-Source AI-Powered Command-Line Interface with access to major AI models including Qwen 3 Coder"
+---
+
+<img
+  className="block dark:hidden mx-auto"
+  src="/images/qwen-cli-interface.png"
+  alt="Qwen CLI Development Workflow"
+/>
+
+Qwen CLI provides comprehensive access to different AI models that understand how developers work and what they need to build exceptional software. 
+
+By combining agentic task execution with multi-model access and enterprise-grade reliability, Qwen CLI offers development capabilities that help you deliver the best code for every project.
+
+## OpenAI Compatibility
+
+Qwen CLI is fully compatible with OpenAI's API structure, making migration seamless:
+
+<CodeGroup>
+```javascript OpenAI SDK
+import OpenAI from 'openai';
+
+const openai = new OpenAI({
+apiKey: 'your-openrouter-key',
+baseURL: 'https://openrouter.ai/api/v1'
+});
+
+const completion = await openai.chat.completions.create({
+model: 'qwen/qwen-3-coder',
+messages: [{ role: 'user', content: 'Write a Python function' }]
+});
+
+````
+
+```bash cURL
+curl https://openrouter.ai/api/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $OPENROUTER_API_KEY" \
+  -d '{
+    "model": "moonshotai/kimi-k2",
+    "messages": [{"role": "user", "content": "Debug this code"}]
+  }'
+````
+
+```python Python
+import openai
+
+client = openai.OpenAI(
+    api_key="your-openrouter-key",
+    base_url="https://openrouter.ai/api/v1"
+)
+
+response = client.chat.completions.create(
+    model="x-ai/grok-4",
+    messages=[{"role": "user", "content": "Analyze this system"}]
+)
+```
+
+</CodeGroup>
+
+## Ready to Get Started?
+
+<CardGroup cols={2}>
+  <Card title="Quick Start Guide" icon="rocket" href="/quickstart">
+    Get up and running in 2 minutes with our comprehensive setup guide
+  </Card>
+  <Card title="API Reference" icon="code" href="/api-reference/commands">
+    Detailed documentation for all CLI commands and configuration options
+  </Card>
+</CardGroup>
+
+<Note>
+  **New to AI development?** Check out our [examples
+  section](/examples/basic-usage) for practical use cases and copy-pasteable
+  code samples.
+</Note>

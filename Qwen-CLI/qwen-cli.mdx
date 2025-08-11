@@ -1,0 +1,245 @@
+---
+title: "Qwen CLI Integration"
+description: "Use Kimi K2 with Qwen CLI for code-aware conversations and agentic interactions"
+---
+
+# Integrating Kimi K2 with Qwen CLI
+
+The Qwen CLI provides a powerful interface for code-aware conversations and agentic interactions. While designed for Qwen models, it offers excellent compatibility with Kimi K2 through OpenAI-compatible APIs.
+
+## What is Qwen CLI?
+
+Qwen CLI is designed with a focus on:
+- **Code-aware conversations** - Understands your codebase context
+- **Agentic interactions** - Performs tasks autonomously
+- **Multi-provider support** - Works with OpenAI-compatible APIs
+
+This makes it perfect for leveraging Kimi K2's agentic capabilities in your development workflow.
+
+## Installation
+
+Install Qwen CLI globally:
+
+```bash
+npm install -g @qwen-code/qwen-code
+```
+
+<Note>
+You don't need to set environment variables beforehand - the CLI will guide you through authentication.
+</Note>
+
+## Initial Setup
+
+After installation, run the CLI to start the authentication process:
+
+```bash
+qwen
+```
+
+You'll be prompted to configure authentication:
+
+<Steps>
+  <Step title="API Key Configuration">
+    When prompted, enter your OpenRouter API key:
+    ```
+    API Keys: sk-or-v1-your-openrouter-key-here
+    ```
+  </Step>
+  
+  <Step title="Base URL Setup">
+    Set the OpenRouter base URL:
+    ```
+    Base URL: https://openrouter.ai/api/v1
+    ```
+  </Step>
+  
+  <Step title="Model Selection">
+    Specify the Kimi K2 model:
+    ```
+    Model: moonshotai/kimi-k2
+    ```
+  </Step>
+</Steps>
+
+## Verification
+
+Once configured, verify the integration is working:
+
+```bash
+qwen "Hello, can you tell me which model you are?"
+```
+
+You should see a response confirming it's using Kimi K2 through the OpenRouter API.
+
+## Key Features with Kimi K2
+
+### Code-Aware Conversations
+
+Qwen CLI automatically understands your project context:
+
+```bash
+# Navigate to your project directory
+cd /path/to/your/project
+
+# Ask context-aware questions
+qwen "What's the main purpose of this codebase?"
+qwen "How can I optimize the database queries in this project?"
+```
+
+### Agentic Task Execution
+
+Leverage Kimi K2's execution capabilities:
+
+```bash
+# Autonomous code generation
+qwen "Create a complete REST API for user management with authentication"
+
+# Database optimization
+qwen "Analyze and optimize all SQL queries in this project"
+
+# Testing automation
+qwen "Write comprehensive tests for the user service module"
+```
+
+### Multi-Step Workflows
+
+Kimi K2 excels at complex, multi-step tasks through Qwen CLI:
+
+```bash
+qwen "Refactor this codebase to use TypeScript, add proper error handling, and create documentation"
+```
+
+## Practical Examples
+
+### Frontend Development
+
+Create a complete Svelte 5 application with Firebase integration:
+
+```bash
+qwen "Create a complete todo application using Svelte 5 and Firebase, with custom SVG icons and smooth animations throughout"
+```
+
+<Tip>
+As shown in our testing, Kimi K2 often accomplishes complex frontend tasks in a single iteration, making it highly cost-effective.
+</Tip>
+
+### API Integration
+
+Build API integrations with proper error handling:
+
+```bash
+qwen "Create a Node.js service that integrates with the GitHub API, handles rate limiting, and provides caching"
+```
+
+### Code Analysis
+
+Analyze existing codebases for improvements:
+
+```bash
+qwen "Analyze this codebase for security vulnerabilities and suggest improvements"
+```
+
+## Cost Tracking
+
+Monitor your usage through OpenRouter's dashboard:
+
+1. Visit your OpenRouter account
+2. Check the **Usage** section
+3. Track costs per model/request
+
+<Info>
+Typical costs for complex tasks range from $0.30-$0.50, making Kimi K2 highly cost-effective for development work.
+</Info>
+
+## Advanced Configuration
+
+### Custom Model Parameters
+
+You can create a configuration file to customize model behavior:
+
+```json
+{
+  "model": "moonshotai/kimi-k2",
+  "temperature": 0.1,
+  "max_tokens": 4096,
+  "top_p": 0.9
+}
+```
+
+### Project-Specific Settings
+
+Create a `.qwen` configuration file in your project root:
+
+```json
+{
+  "context_files": [
+    "package.json",
+    "README.md",
+    "src/**/*.ts"
+  ],
+  "ignore_patterns": [
+    "node_modules/**",
+    "dist/**",
+    "*.log"
+  ]
+}
+```
+
+## Integration with Development Workflow
+
+### Git Integration
+
+Use Qwen CLI for git-related tasks:
+
+```bash
+# Generate commit messages
+qwen "Generate a commit message for the current staged changes"
+
+# Code review
+qwen "Review the changes in the last commit and suggest improvements"
+```
+
+### Documentation Generation
+
+Automatically generate documentation:
+
+```bash
+qwen "Generate comprehensive API documentation for this project"
+qwen "Create a README.md file that explains the project setup and usage"
+```
+
+### Testing and Quality Assurance
+
+Improve code quality:
+
+```bash
+qwen "Add unit tests for all utility functions"
+qwen "Refactor this code to follow best practices and improve maintainability"
+```
+
+## Performance Tips
+
+<CardGroup cols={2}>
+  <Card title="Context Management" icon="brain">
+    Keep project context focused - exclude unnecessary files to reduce token usage
+  </Card>
+  <Card title="Iterative Approach" icon="repeat">
+    Break complex tasks into smaller chunks for better results and cost control
+  </Card>
+  <Card title="Cache Results" icon="database">
+    Save commonly used code snippets and configurations for reuse
+  </Card>
+  <Card title="Monitor Usage" icon="chart-line">
+    Regularly check OpenRouter usage to optimize costs
+  </Card>
+</CardGroup>
+
+## Next Steps
+
+- Explore [API Configuration Examples](/kimi-k2/api-examples) for advanced use cases
+- Check the [Troubleshooting Guide](/kimi-k2/troubleshooting) if you encounter issues
+- Consider integrating with your IDE for seamless development experience
+
+<Tip>
+Start with simple tasks to understand Kimi K2's response patterns, then gradually tackle more complex agentic workflows.
+</Tip>

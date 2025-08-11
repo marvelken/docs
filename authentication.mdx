@@ -1,0 +1,436 @@
+---
+title: "Authentication Setup"
+description: "Complete guide to setting up OpenRouter API authentication for Qwen CLI"
+---
+
+# OpenRouter
+
+Qwen CLI uses OpenRouter as the API gateway to provide access to multiple AI models through a single, unified interface. This guide covers everything you need to know about setting up and managing authentication.
+
+<img
+  className=""
+  src="/images/openRouter.png"
+  alt="Qwen CLI Hero Dark"
+/>
+
+## Simple Plug-and-Play Setup
+
+For the easiest setup experience, you don't need to configure any environment variables or create configuration files. Qwen CLI provides an interactive authentication interface that guides you through the process.
+
+<Note>
+**Quickest Start**: Simply run `qwen` in your CLI after installation, and Qwen CLI will automatically prompt you for your OpenRouter API key and configuration. No environment variables needed!
+</Note>
+
+### Interactive Authentication Flow
+
+When you run `qwen` for the first time (or if no authentication is configured):
+
+1. **Automatic Prompt**: Qwen CLI detects no configuration and opens an interactive setup
+2. **Choose Provider**: Select "OpenRouter" from the provider options
+3. **Enter API Key**: Paste your OpenRouter API key when prompted
+4. **Select Model**: Choose your preferred default model (Qwen 3 Coder, Kimi K2, etc.)
+5. **Start Coding**: Begin using Qwen CLI immediately
+
+```bash
+# Simply run qwen - no setup required
+qwen
+
+# CLI will automatically prompt:
+# ? Select API provider: OpenRouter
+# ? Enter your API key: [paste your key]
+# ? Choose default model: qwen/qwen-3-coder
+# ✓ Configuration saved! Ready to use.
+```
+
+
+## Manual Configuration (Optional)
+
+If you prefer more control over your setup, or need to configure multiple environments, you can still manually set up authentication using the methods below.
+
+## Getting Your OpenRouter API Key
+
+<Steps>
+  <Step title="Create OpenRouter Account">
+    1. Visit [OpenRouter.ai](https://openrouter.ai)
+    2. Click **Sign Up** and create your account
+    3. Verify your email address
+    4. Complete your profile setup
+  </Step>
+  
+  <Step title="Add Credits to Your Account">
+    1. Navigate to the **Billing** section
+    2. Add credits to your account (minimum $5 recommended)
+    3. Choose from multiple payment methods
+    4. Credits never expire and roll over month to month
+    
+    <Note>
+    Most models require a small credit balance to access. $5-10 is typically enough for extensive testing and development.
+    </Note>
+  </Step>
+  
+  <Step title="Generate API Key">
+    1. Go to the **API Keys** section in your dashboard
+    2. Click **Create New Key**
+    3. Give your key a descriptive name (e.g., "Qwen CLI - Development")
+    4. Copy the generated key (starts with `sk-or-v1-`)
+    5. Store it securely - you won't be able to see it again
+    
+    <Warning>
+    Never share your API key or commit it to version control. Treat it like a password.
+    </Warning>
+  </Step>
+</Steps>
+
+## Configuring Qwen CLI
+
+### Method 1: Interactive Setup (Recommended)
+
+Run the interactive authentication setup:
+
+```bash
+qwen auth
+```
+
+You'll be prompted for:
+
+<Tabs>
+  <Tab title="API Key">
+    ```
+    Enter your OpenRouter API key: sk-or-v1-your-actual-key-here
+    ```
+    
+    Paste your OpenRouter API key when prompted.
+  </Tab>
+  
+  <Tab title="Base URL">
+    ```
+    Enter API base URL: https://openrouter.ai/api/v1
+    ```
+    
+    This should be pre-filled. Just press Enter to accept.
+  </Tab>
+  
+  <Tab title="Default Model">
+    ```
+    Choose default model:
+    1) qwen/qwen-3-coder (Recommended for code)
+    2) moonshotai/kimi-k2 (Agentic workflows)
+    3) x-ai/grok-4 (Advanced reasoning)
+    ```
+    
+    Select based on your primary use case.
+  </Tab>
+</Tabs>
+
+### Method 2: Command Line Setup
+
+Configure everything in a single command:
+
+```bash
+qwen auth --key sk-or-v1-your-api-key \
+          --base-url https://openrouter.ai/api/v1 \
+          --model qwen/qwen-3-coder
+```
+
+### Method 3: Environment Variables
+
+Set up authentication using environment variables:
+
+<CodeGroup>
+```bash Shell (Unix/Linux/macOS)
+export OPENROUTER_API_KEY="sk-or-v1-your-api-key"
+export OPENAI_BASE_URL="https://openrouter.ai/api/v1"
+export QWEN_DEFAULT_MODEL="qwen/qwen-3-coder"
+```
+
+```cmd Windows Command Prompt
+set OPENROUTER_API_KEY=sk-or-v1-your-api-key
+set OPENAI_BASE_URL=https://openrouter.ai/api/v1
+set QWEN_DEFAULT_MODEL=qwen/qwen-3-coder
+```
+
+```powershell Windows PowerShell
+$env:OPENROUTER_API_KEY="sk-or-v1-your-api-key"
+$env:OPENAI_BASE_URL="https://openrouter.ai/api/v1"
+$env:QWEN_DEFAULT_MODEL="qwen/qwen-3-coder"
+```
+</CodeGroup>
+
+### Method 4: Configuration File
+
+Create a configuration file for persistent settings:
+
+<CodeGroup>
+```json ~/.qwen/config.json
+{
+  "api_key": "sk-or-v1-your-api-key",
+  "base_url": "https://openrouter.ai/api/v1",
+  "default_model": "qwen/qwen-3-coder",
+  "max_tokens": 4096,
+  "temperature": 0.1,
+  "timeout": 30000
+}
+```
+
+```yaml ~/.qwen/config.yaml
+api_key: sk-or-v1-your-api-key
+base_url: https://openrouter.ai/api/v1
+default_model: qwen/qwen-3-coder
+max_tokens: 4096
+temperature: 0.1
+timeout: 30000
+```
+</CodeGroup>
+
+## Verification
+
+After setting up authentication, verify it's working:
+
+<Steps>
+  <Step title="Check Configuration">
+    ```bash
+    qwen config show
+    ```
+    
+    This will display your current configuration (with API key partially hidden for security).
+  </Step>
+  
+  <Step title="Test API Connection">
+    ```bash
+    qwen status
+    ```
+    
+    This checks connectivity to OpenRouter and validates your API key.
+  </Step>
+  
+  <Step title="Simple Test Query">
+    ```bash
+    qwen "Say hello world"
+    ```
+    
+    If authentication is working, you'll get a response from the AI model.
+  </Step>
+</Steps>
+
+## Security Best Practices
+
+<AccordionGroup>
+  <Accordion title="API Key Storage">
+    **✅ Secure Methods:**
+    - Environment variables (for development)
+    - Secure configuration files with restricted permissions
+    - Enterprise secret management systems
+    - CI/CD secret stores
+    
+    **❌ Avoid:**
+    - Hardcoding in source code
+    - Storing in public repositories
+    - Sharing in plain text files
+    - Including in client-side code
+  </Accordion>
+  
+  <Accordion title="File Permissions">
+    Set restrictive permissions on configuration files:
+    
+    ```bash
+    # Make config file readable only by owner
+    chmod 600 ~/.qwen/config.json
+    
+    # Verify permissions
+    ls -la ~/.qwen/config.json
+    ```
+  </Accordion>
+  
+  <Accordion title="API Key Rotation">
+    Regularly rotate your API keys:
+    
+    1. Generate a new API key in OpenRouter dashboard
+    2. Update your configuration
+    3. Test the new key works
+    4. Revoke the old key
+    
+    ```bash
+    # Update to new key
+    qwen auth --key sk-or-v1-new-api-key
+    
+    # Verify it works
+    qwen status
+    ```
+  </Accordion>
+  
+  <Accordion title="Usage Monitoring">
+    Monitor your API usage for suspicious activity:
+    
+    ```bash
+    # Check recent usage
+    qwen usage --period day
+    
+    # Monitor costs
+    qwen costs --detailed
+    
+    # View request logs (if enabled)
+    qwen logs --limit 50
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Multiple Environments
+
+Manage different API keys for different environments:
+
+### Development Environment
+
+```bash
+# Set up development configuration
+qwen auth --profile development \
+          --key sk-or-v1-dev-key \
+          --model qwen/qwen-3-coder
+
+# Use development profile
+qwen --profile development "Generate test data"
+```
+
+### Production Environment
+
+```bash
+# Set up production configuration
+qwen auth --profile production \
+          --key sk-or-v1-prod-key \
+          --model moonshotai/kimi-k2
+
+# Use production profile
+qwen --profile production "Deploy application"
+```
+
+### Team Setup
+
+For team environments, use a shared configuration approach:
+
+<CodeGroup>
+```json team-config.json
+{
+  "base_url": "https://openrouter.ai/api/v1",
+  "default_model": "qwen/qwen-3-coder",
+  "max_tokens": 4096,
+  "temperature": 0.1,
+  "team_settings": {
+    "coding_standards": "strict",
+    "output_format": "markdown",
+    "include_comments": true
+  }
+}
+```
+</CodeGroup>
+
+Each team member sets their own API key:
+```bash
+qwen auth --config ./team-config.json --key $PERSONAL_OPENROUTER_KEY
+```
+
+## Troubleshooting Authentication
+
+<AccordionGroup>
+  <Accordion title="Invalid API Key">
+    **Error**: `Authentication failed: Invalid API key`
+    
+    **Solutions**:
+    1. Verify the API key is correctly copied
+    2. Check for extra spaces or characters
+    3. Ensure you're using an OpenRouter key (starts with `sk-or-v1-`)
+    4. Verify the key hasn't been revoked
+    5. Try generating a new API key
+  </Accordion>
+  
+  <Accordion title="Insufficient Credits">
+    **Error**: `Payment required: Insufficient credits`
+    
+    **Solutions**:
+    1. Add credits to your OpenRouter account
+    2. Check your current balance in the dashboard
+    3. Verify the model you're using is available
+    4. Consider switching to a less expensive model
+  </Accordion>
+  
+  <Accordion title="Rate Limiting">
+    **Error**: `Rate limit exceeded`
+    
+    **Solutions**:
+    1. Wait before retrying (rate limits reset over time)
+    2. Implement exponential backoff
+    3. Upgrade your OpenRouter plan
+    4. Use batch operations instead of individual requests
+  </Accordion>
+  
+  <Accordion title="Network Issues">
+    **Error**: `Connection timeout` or `Network error`
+    
+    **Solutions**:
+    1. Check your internet connection
+    2. Verify firewall settings
+    3. Try a different network
+    4. Check OpenRouter status page
+    5. Increase timeout settings:
+       ```bash
+       qwen config set timeout 60000  # 60 seconds
+       ```
+  </Accordion>
+</AccordionGroup>
+
+## Advanced Configuration
+
+### Custom Headers
+
+Add custom headers for tracking or compliance:
+
+```json
+{
+  "api_key": "sk-or-v1-your-key",
+  "base_url": "https://openrouter.ai/api/v1",
+  "custom_headers": {
+    "HTTP-Referer": "https://yourcompany.com",
+    "X-Title": "Your App Name",
+    "X-Team-ID": "engineering"
+  }
+}
+```
+
+### Proxy Configuration
+
+Configure Qwen CLI to work with corporate proxies:
+
+```json
+{
+  "api_key": "sk-or-v1-your-key",
+  "base_url": "https://openrouter.ai/api/v1",
+  "proxy": {
+    "host": "proxy.company.com",
+    "port": 8080,
+    "auth": {
+      "username": "your-username",
+      "password": "your-password"
+    }
+  }
+}
+```
+
+### SSL Configuration
+
+For enterprise environments with custom certificates:
+
+```json
+{
+  "api_key": "sk-or-v1-your-key",
+  "base_url": "https://openrouter.ai/api/v1",
+  "ssl": {
+    "verify": true,
+    "ca_bundle": "/path/to/ca-bundle.crt",
+    "client_cert": "/path/to/client.crt",
+    "client_key": "/path/to/client.key"
+  }
+}
+```
+
+
+<Tip>
+**Pro Tip**: Set up multiple profiles for different projects or use cases. This allows you to quickly switch between different models and configurations based on your current needs. 
+</Tip>

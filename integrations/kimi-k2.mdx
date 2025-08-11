@@ -1,0 +1,573 @@
+---
+title: "Kimi K2 Integration"
+description: ""
+---
+
+<Tip>
+**First-time setup?** Make sure to authenticate with the Kimi K2 model before using. Run `qwen auth` and select `moonshotai/kimi-k2` as your model, or visit our [Authentication guide](/authentication) for detailed setup instructions.
+</Tip>
+
+Kimi K2 is an agentic AI model designed for autonomous task execution rather than just reasoning. It excels at creating complete applications, managing complex workflows, and executing multi-step development tasks independently.
+
+## Features
+
+<CardGroup cols={2}>
+  <Card title="Agentic Architecture" icon="robot">
+    Designed for autonomous execution, not just chat-based responses
+  </Card>
+  <Card title="Large Context Window" icon="expand">
+    130k token context allows understanding of entire codebases
+  </Card>
+  <Card title="Multi-Step Execution" icon="list-check">
+    Completes complex tasks that require multiple coordinated steps
+  </Card>
+  <Card title="One-Shot Applications" icon="magic-wand">
+    Creates complete, working applications in single requests
+  </Card>
+</CardGroup>
+
+## Key Capabilities
+
+### Complete Application Generation
+
+Unlike traditional AI that generates code snippets, Kimi K2 builds entire applications:
+
+<CodeGroup>
+```bash Full-Stack Applications
+# Generate complete web application
+qwen --model moonshotai/kimi-k2 \
+     "Create a complete task management app with React frontend, Node.js backend, and PostgreSQL database"
+
+# E-commerce platform
+qwen --model moonshotai/kimi-k2 \
+     "Build a full e-commerce platform with user auth, product catalog, shopping cart, and payment integration"
+```
+
+```bash Mobile Applications
+# React Native app
+qwen --model moonshotai/kimi-k2 \
+     "Create a complete social media app with React Native, including posts, comments, and real-time chat"
+
+# Flutter application
+qwen --model moonshotai/kimi-k2 \
+     "Build a fitness tracking app with Flutter, including workout logging and progress visualization"
+```
+</CodeGroup>
+
+### Autonomous Workflow Management
+
+Kimi K2 can manage complex development workflows independently:
+
+<Tabs>
+  <Tab title="Development Workflows">
+    ```bash
+    # Complete feature implementation
+    qwen --model moonshotai/kimi-k2 \
+         "Implement user authentication system with registration, login, password reset, email verification, and role-based access control"
+    
+    # Includes:
+    # - Database schema design
+    # - Backend API endpoints
+    # - Frontend components
+    # - Email templates
+    # - Security middleware
+    # - Input validation
+    # - Error handling
+    # - Unit tests
+    ```
+  </Tab>
+  
+  <Tab title="Infrastructure Setup">
+    ```bash
+    # DevOps automation
+    qwen --model moonshotai/kimi-k2 \
+         "Set up complete CI/CD pipeline with Docker, Kubernetes deployment, monitoring, and automated testing"
+    
+    # Generates:
+    # - Dockerfile configurations
+    # - Kubernetes manifests
+    # - GitHub Actions workflows
+    # - Monitoring setup
+    # - Security scanning
+    # - Database migrations
+    ```
+  </Tab>
+  
+  <Tab title="Data Processing">
+    ```bash
+    # ETL pipelines
+    qwen --model moonshotai/kimi-k2 \
+         "Create data processing pipeline that ingests CSV files, cleanses data, performs analytics, and generates reports with visualizations"
+    
+    # Creates:
+    # - Data ingestion scripts
+    # - Validation and cleaning logic
+    # - Analytics calculations
+    # - Report generation
+    # - Dashboard interfaces
+    # - Error handling and logging
+    ```
+  </Tab>
+</Tabs>
+
+## When to Use Kimi K2
+
+### Perfect Use Cases
+
+<AccordionGroup>
+  <Accordion title="Rapid Prototyping">
+    **Ideal for**: Creating functional prototypes quickly
+    
+    ```bash
+    qwen --model moonshotai/kimi-k2 \
+         "Create a complete SaaS dashboard prototype with user management, analytics charts, billing integration, and responsive design"
+    ```
+    
+    **What you get**:
+    - Complete working application
+    - All necessary components
+    - Database setup and models
+    - API endpoints
+    - Frontend interface
+    - Basic styling and responsiveness
+  </Accordion>
+  
+  <Accordion title="MVP Development">
+    **Ideal for**: Building minimum viable products
+    
+    ```bash
+    qwen --model moonshotai/kimi-k2 \
+         "Build an MVP for a food delivery app with restaurant listings, menu browsing, cart functionality, order placement, and basic payment processing"
+    ```
+    
+    **Deliverables**:
+    - Full application architecture
+    - User authentication system
+    - Core business logic
+    - Payment integration
+    - Admin panel
+    - Mobile-responsive design
+  </Accordion>
+  
+  <Accordion title="Complex Feature Implementation">
+    **Ideal for**: Multi-component features
+    
+    ```bash
+    qwen --model moonshotai/kimi-k2 \
+         "Add comprehensive search functionality to existing e-commerce site including full-text search, filters, faceted navigation, auto-suggestions, and search analytics"
+    ```
+    
+    **Components created**:
+    - Search backend with Elasticsearch
+    - Frontend search interface
+    - Filter components
+    - Auto-complete functionality
+    - Analytics tracking
+    - Performance optimization
+  </Accordion>
+</AccordionGroup>
+
+## Advanced Usage Patterns
+
+### Context-Aware Development
+
+Kimi K2 excels when given comprehensive project context:
+
+<CodeGroup>
+```bash Project Analysis
+# Analyze existing codebase and add features
+qwen --model moonshotai/kimi-k2 \
+     --context ./entire-project \
+     "Add real-time chat functionality to this existing social media application"
+```
+
+```json Project Context
+{
+  "analyze_codebase": true,
+  "understand_architecture": true,
+  "maintain_patterns": true,
+  "integrate_seamlessly": true,
+  "preserve_existing_functionality": true
+}
+```
+</CodeGroup>
+
+### Multi-Technology Integration
+
+Handle complex technology stacks:
+
+<Tabs>
+  <Tab title="Modern Web Stack">
+    ```bash
+    qwen --model moonshotai/kimi-k2 \
+         "Create a modern blog platform using Next.js 14, TypeScript, Prisma ORM, PostgreSQL, Tailwind CSS, NextAuth.js, and deploy with Docker"
+    ```
+    
+    **Generated components**:
+    - Next.js 14 app with App Router
+    - TypeScript configurations
+    - Prisma database models
+    - Authentication setup
+    - Responsive UI components
+    - Docker deployment configuration
+    - Environment management
+  </Tab>
+  
+  <Tab title="Microservices Architecture">
+    ```bash
+    qwen --model moonshotai/kimi-k2 \
+         "Design and implement a microservices-based e-learning platform with user service, course service, payment service, notification service, and API gateway"
+    ```
+    
+    **Architecture includes**:
+    - Multiple service implementations
+    - Inter-service communication
+    - API gateway configuration
+    - Database per service
+    - Docker Compose setup
+    - Service discovery
+    - Health checks and monitoring
+  </Tab>
+  
+  <Tab title="AI/ML Integration">
+    ```bash
+    qwen --model moonshotai/kimi-k2 \
+         "Build a content recommendation system with Python backend using scikit-learn, FastAPI for serving, React frontend, and PostgreSQL for data storage"
+    ```
+    
+    **Solution includes**:
+    - ML model training pipeline
+    - Feature engineering
+    - API for model serving
+    - Frontend recommendation interface
+    - Data storage and retrieval
+    - Model retraining automation
+  </Tab>
+</Tabs>
+
+## Performance Characteristics
+
+### Speed vs Complexity Trade-off
+
+<CardGroup cols={2}>
+  <Card title="Response Time" icon="clock">
+    **Moderate speed** for complex tasks
+    
+    - Simple tasks: 10-30 seconds
+    - Complete apps: 2-5 minutes
+    - Complex systems: 5-15 minutes
+  </Card>
+  
+  <Card title="Output Quality" icon="star">
+    **Exceptional quality** with comprehensive solutions
+    
+    - Production-ready code
+    - Complete implementations
+    - Proper error handling
+    - Documentation included
+  </Card>
+</CardGroup>
+
+### Cost Optimization
+
+<AccordionGroup>
+  <Accordion title="When Kimi K2 is Cost-Effective">
+    **Use Kimi K2 when**:
+    - Building complete features (vs. multiple small requests)
+    - Creating prototypes or MVPs
+    - Need autonomous multi-step execution
+    - Complex integration requirements
+    
+    **Cost comparison**:
+    ```bash
+    # Instead of 50 small requests with Qwen 3 Coder ($2.50)
+    # One comprehensive request with Kimi K2 ($1.00)
+    ```
+  </Accordion>
+  
+  <Accordion title="Optimization Strategies">
+    **Maximize value**:
+    1. Bundle related features in single requests
+    2. Provide comprehensive requirements upfront
+    3. Use for complex tasks that benefit from large context
+    4. Leverage autonomous capabilities fully
+    
+    ```bash
+    # Efficient approach
+    qwen --model moonshotai/kimi-k2 \
+         "Build complete user management system with auth, profiles, settings, admin panel, and email notifications"
+    
+    # vs inefficient: multiple separate requests
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Real-World Examples
+
+### Case Study: E-Commerce Platform
+
+**Request:**
+```bash
+qwen --model moonshotai/kimi-k2 \
+     "Create a complete e-commerce platform with product catalog, shopping cart, checkout, payment processing, order management, and admin dashboard"
+```
+
+**Generated Solution:**
+
+<Tabs>
+  <Tab title="Architecture">
+    **Frontend (React + TypeScript)**:
+    - Product browsing interface
+    - Shopping cart functionality
+    - Checkout flow
+    - User account management
+    - Order history
+    
+    **Backend (Node.js + Express)**:
+    - RESTful API endpoints
+    - Authentication middleware
+    - Payment processing integration
+    - Order management system
+    - Admin API endpoints
+    
+    **Database (PostgreSQL)**:
+    - Product catalog schema
+    - User and order tables
+    - Inventory management
+    - Transaction records
+  </Tab>
+  
+  <Tab title="Features Included">
+    **Customer Features**:
+    - Product search and filtering
+    - Wishlist functionality
+    - Shopping cart with persistence
+    - Secure checkout process
+    - Order tracking
+    - User reviews and ratings
+    
+    **Admin Features**:
+    - Product management
+    - Order processing
+    - Customer management
+    - Sales analytics
+    - Inventory tracking
+    - Report generation
+  </Tab>
+  
+  <Tab title="Technical Implementation">
+    **Security**:
+    - JWT authentication
+    - Input validation
+    - SQL injection protection
+    - XSS prevention
+    - HTTPS enforcement
+    
+    **Performance**:
+    - Database query optimization
+    - Image optimization
+    - Caching strategies
+    - Lazy loading
+    - CDN integration
+    
+    **Deployment**:
+    - Docker containerization
+    - Environment configuration
+    - CI/CD pipeline
+    - Health checks
+    - Monitoring setup
+  </Tab>
+</Tabs>
+
+### Case Study: Task Management SaaS
+
+**Request:**
+```bash
+qwen --model moonshotai/kimi-k2 \
+     "Build a complete task management SaaS application with teams, projects, tasks, time tracking, reporting, and subscription billing"
+```
+
+**Key Components Generated:**
+- Multi-tenant architecture
+- Team collaboration features
+- Project and task management
+- Time tracking with analytics
+- Subscription billing integration
+- Real-time updates with WebSockets
+- Mobile-responsive design
+- Email notifications
+- Export and reporting features
+- Admin dashboard
+
+## Integration with Development Workflow
+
+### Version Control Integration
+
+<CodeGroup>
+```bash Git Integration
+# Generate feature branch with complete implementation
+qwen --model moonshotai/kimi-k2 \
+     --git-branch feature/user-notifications \
+     "Add comprehensive notification system with email, SMS, and in-app notifications"
+```
+
+```bash Pull Request Generation
+# Create complete feature with PR description
+qwen --model moonshotai/kimi-k2 \
+     --create-pr \
+     "Implement advanced search functionality with filters and analytics"
+```
+</CodeGroup>
+
+### Testing and Quality Assurance
+
+Kimi K2 automatically includes comprehensive testing:
+
+<Tabs>
+  <Tab title="Unit Tests">
+    ```javascript
+    // Automatically generated with each feature
+    describe('UserAuthentication', () => {
+      it('should register new user with valid data', async () => {
+        // Complete test implementation
+      });
+      
+      it('should handle login with correct credentials', async () => {
+        // Test logic with proper mocking
+      });
+    });
+    ```
+  </Tab>
+  
+  <Tab title="Integration Tests">
+    ```javascript
+    // API endpoint testing
+    describe('API Integration Tests', () => {
+      it('should handle complete user workflow', async () => {
+        // End-to-end workflow testing
+      });
+    });
+    ```
+  </Tab>
+  
+  <Tab title="E2E Tests">
+    ```javascript
+    // Playwright/Cypress tests included
+    test('complete user journey', async ({ page }) => {
+      // Full user workflow automation
+    });
+    ```
+  </Tab>
+</Tabs>
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Maximizing Kimi K2 Effectiveness">
+    **Provide Comprehensive Requirements:**
+    - Detailed feature descriptions
+    - Technology stack preferences
+    - Design and UX requirements
+    - Performance expectations
+    - Security considerations
+    
+    **Example:**
+    ```bash
+    qwen --model moonshotai/kimi-k2 \
+         "Create a social media platform similar to Twitter but focused on developers. 
+         
+         Requirements:
+         - React/TypeScript frontend with Tailwind CSS
+         - Node.js/Express backend with PostgreSQL
+         - Real-time messaging with Socket.io
+         - Code syntax highlighting for posts
+         - OAuth integration (GitHub, Google)
+         - Repository integration for sharing code
+         - Dark/light theme support
+         - Mobile-responsive design
+         - Deployment with Docker and CI/CD
+         - Comprehensive testing suite"
+    ```
+  </Accordion>
+  
+  <Accordion title="Quality Assurance">
+    **Review Generated Applications:**
+    1. Test all functionality thoroughly
+    2. Review security implementations
+    3. Verify performance characteristics
+    4. Check code quality and maintainability
+    5. Ensure proper documentation
+    
+    **Validation Commands:**
+    ```bash
+    # Run generated tests
+    npm test
+    
+    # Security audit
+    npm audit
+    
+    # Performance testing
+    npm run lighthouse
+    
+    # Code quality check
+    npm run lint
+    ```
+  </Accordion>
+  
+  <Accordion title="Iterative Improvement">
+    **Enhance Generated Applications:**
+    ```bash
+    # Add specific improvements
+    qwen --model moonshotai/kimi-k2 \
+         --context ./generated-app \
+         "Add advanced analytics dashboard with user behavior tracking and revenue metrics"
+    
+    # Optimize performance
+    qwen --model moonshotai/kimi-k2 \
+         --context ./generated-app \
+         "Optimize application performance and add caching strategies"
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Incomplete Generations">
+    **Issue**: Response cuts off before completion
+    
+    **Solutions**:
+    - Break complex requests into smaller parts
+    - Increase max_tokens setting
+    - Use follow-up requests to continue
+    
+    ```bash
+    # Follow up request
+    qwen --model moonshotai/kimi-k2 \
+         --context ./partial-app \
+         "Continue implementing the remaining components for the user dashboard"
+    ```
+  </Accordion>
+  
+  <Accordion title="Integration Issues">
+    **Issue**: Generated code doesn't integrate well with existing codebase
+    
+    **Solutions**:
+    - Provide more comprehensive project context
+    - Specify existing patterns and conventions
+    - Request compatibility with specific versions
+    
+    ```bash
+    qwen --model moonshotai/kimi-k2 \
+         --context ./existing-project \
+         --follow-patterns \
+         "Add payment processing that follows our existing service architecture patterns"
+    ```
+  </Accordion>
+</AccordionGroup>
+
+
+
+<Tip>
+**Pro Tip**: Use Kimi K2 when you need complete solutions rather than code snippets. It's perfect for MVP development, feature implementation, and rapid prototyping where autonomous execution saves significant development time.
+</Tip>

@@ -1,0 +1,105 @@
+---
+title: "Qwen 3 Coder Integration"
+description: "Learn how to integrate Qwen 3 Coder with your development workflow"
+---
+
+# Qwen 3 Coder Integration
+
+Qwen 3 Coder is a powerful code-focused language model designed for software development tasks. This guide covers how to integrate it with Qwen CLI and other development tools.
+
+## Overview
+
+Qwen 3 Coder excels at:
+- Code generation and completion
+- Bug fixing and debugging
+- Code refactoring and optimization
+- Technical documentation
+- Code review and analysis
+
+## Quick Setup
+
+<Steps>
+  <Step title="Install Qwen CLI">
+    ```bash
+    npm install -g @qwen-code/qwen-code
+    ```
+  </Step>
+  
+  <Step title="Configure Authentication">
+    Run `qwen` and set up your API credentials:
+    ```
+    API Key: your-qwen-api-key
+    Base URL: https://api.qwen.com/v1
+    Model: qwen3-coder
+    ```
+  </Step>
+  
+  <Step title="Test Integration">
+    ```bash
+    qwen "Write a Python function to sort a list of dictionaries by a specific key"
+    ```
+  </Step>
+</Steps>
+
+## Key Features
+
+<CardGroup cols={2}>
+  <Card title="Code Generation" icon="code">
+    Generate high-quality code in multiple programming languages
+  </Card>
+  <Card title="Debugging Support" icon="bug">
+    Identify and fix bugs in existing codebases
+  </Card>
+  <Card title="Refactoring" icon="arrows-rotate">
+    Improve code structure and maintainability
+  </Card>
+  <Card title="Documentation" icon="book">
+    Generate comprehensive code documentation
+  </Card>
+</CardGroup>
+
+## Usage Examples
+
+### Basic Code Generation
+
+```bash
+qwen "Create a REST API endpoint in Express.js for user authentication"
+```
+
+### Code Review
+
+```bash
+qwen "Review this function for potential security vulnerabilities and suggest improvements"
+```
+
+### Debugging Assistance
+
+```bash
+qwen "Help me debug this Python script that's throwing a TypeError"
+```
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Prompt Engineering">
+    - Be specific about the programming language
+    - Include context about your project structure
+    - Specify coding standards or frameworks in use
+  </Accordion>
+  
+  <Accordion title="Code Quality">
+    - Always review generated code before implementation
+    - Test generated functions thoroughly
+    - Consider security implications of generated code
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+- Explore advanced configuration options
+- Integrate with your IDE for seamless development
+- Set up automated code review workflows
+
+<Tip>
+Qwen 3 Coder works best when provided with clear, specific prompts and adequate context about your project requirements.
+</Tip>

@@ -1,0 +1,168 @@
+---
+title: "Kimi K2 Quick Start"
+description: "Get started with Kimi K2's agentic AI capabilities for autonomous task execution"
+---
+
+# Kimi K2 Quick Start
+
+Kimi K2 is an agentic AI model designed for execution rather than just reasoning. Perfect for developers who need AI that doesn't just suggest solutions—it implements them.
+
+## Why Choose Kimi K2?
+
+<CardGroup cols={3}>
+  <Card title="Agentic Design" icon="robot">
+    Built for autonomous task execution and workflow automation
+  </Card>
+  <Card title="Cost Effective" icon="dollar-sign">
+    5x cheaper than Claude/GPT while matching performance
+  </Card>
+  <Card title="High Performance" icon="chart-line">
+    65.8% SWE-bench Verified vs DeepSeek's 38.8%
+  </Card>
+</CardGroup>
+
+## Quick Setup
+
+<Steps>
+  <Step title="Get API Access">
+    Choose your preferred provider:
+    - **OpenRouter** (recommended): Visit [openrouter.ai](https://openrouter.ai)
+    - **Direct Moonshot**: Visit [platform.moonshot.ai](https://platform.moonshot.ai)
+  </Step>
+  
+  <Step title="Install Claude Code Router">
+    ```bash
+    npm install -g @musistudio/claude-code-router
+    ```
+  </Step>
+  
+  <Step title="Configure Router">
+    ```bash
+    ccr start
+    ```
+    Enter your configuration:
+    ```
+    Provider: openrouter
+    API URL: https://openrouter.ai/api/v1
+    API Key: sk-or-v1-your-key
+    Model: moonshotai/kimi-k2
+    ```
+  </Step>
+  
+  <Step title="Test Integration">
+    ```bash
+    ccr code "Create a Python web scraper with error handling"
+    ```
+  </Step>
+</Steps>
+
+## Key Capabilities
+
+### Code Generation
+Generate complete, working applications in a single request:
+
+```bash
+ccr code "Create a complete todo app with React, TypeScript, and local storage"
+```
+
+### Autonomous Debugging
+Kimi K2 can identify, analyze, and fix bugs automatically:
+
+```bash
+ccr code "Debug and fix all TypeScript errors in this codebase"
+```
+
+### Workflow Automation
+Automate complex development workflows:
+
+```bash
+ccr code "Set up CI/CD pipeline with testing, linting, and deployment"
+```
+
+## Integration Options
+
+<Tabs>
+  <Tab title="Qwen CLI">
+    Use Kimi K2 through Qwen CLI for enhanced code-aware conversations:
+    ```bash
+    npm install -g @qwen-code/qwen-code
+    qwen # Configure with OpenRouter + Kimi K2
+    ```
+  </Tab>
+  
+  <Tab title="Direct API">
+    Integrate directly in your applications:
+    ```javascript
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: 'moonshotai/kimi-k2',
+        messages: [{ role: 'user', content: 'Your prompt' }]
+      })
+    });
+    ```
+  </Tab>
+  
+  <Tab title="IDE Integration">
+    Use with AI-powered IDEs like Windsurf for seamless development experience.
+  </Tab>
+</Tabs>
+
+## Performance Highlights
+
+| Benchmark | Kimi K2 | GPT-4.1 | DeepSeek |
+|-----------|---------|---------|----------|
+| LiveCodeBench | 53.7% | 44.7% | - |
+| MATH-500 | 97.4% | 92.4% | - |
+| SWE-bench | 65.8% | - | 38.8% |
+
+## Pricing
+
+<Note>
+Free tier includes 3M tokens/day but limited to 6 RPM. Upgrade for production use.
+</Note>
+
+- **Input**: $0.60 per 1M tokens
+- **Output**: $2.50 per 1M tokens
+- **Free tier**: 3M tokens/day, 6 RPM, 1 concurrent request
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Complete Setup Guide"
+    icon="book"
+    href="/kimi-k2/getting-started"
+  >
+    Detailed configuration and setup instructions
+  </Card>
+  <Card
+    title="API Examples"
+    icon="code"
+    href="/kimi-k2/api-examples"
+  >
+    Practical integration examples for various platforms
+  </Card>
+  <Card
+    title="Qwen CLI Integration"
+    icon="terminal"
+    href="/kimi-k2/qwen-cli"
+  >
+    Advanced usage with Qwen CLI
+  </Card>
+  <Card
+    title="Troubleshooting"
+    icon="wrench"
+    href="/kimi-k2/troubleshooting"
+  >
+    Common issues and solutions
+  </Card>
+</CardGroup>
+
+<Tip>
+Start with simple tasks to understand Kimi K2's capabilities, then gradually tackle more complex agentic workflows.
+</Tip>

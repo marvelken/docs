@@ -1,0 +1,182 @@
+---
+title: "Getting Started with Kimi K2"
+description: "Set up Kimi K2 API access and configure your development environment"
+---
+
+# Getting Started with Kimi K2 API
+
+This guide walks you through setting up Kimi K2 API access through OpenRouter or direct Moonshot integration.
+
+## Prerequisites
+
+Before you begin, ensure you have:
+- Node.js 16+ installed
+- An OpenRouter account OR Moonshot account
+- Basic familiarity with command-line tools
+
+## Step 1: Get Your API Key
+
+Choose between OpenRouter (recommended for beginners) or direct Moonshot access:
+
+<Tabs>
+  <Tab title="OpenRouter (Recommended)">
+    1. Visit [openrouter.ai](https://openrouter.ai)
+    2. Create a free account
+    3. Navigate to **API Keys** section
+    4. Generate a new API key (starts with `sk-or-v1-`)
+    5. Save this key securely
+
+    <Note>OpenRouter provides unified API access to multiple models and better rate limiting for beginners.</Note>
+  </Tab>
+  
+  <Tab title="Direct Moonshot">
+    1. Go to [platform.moonshot.ai](https://platform.moonshot.ai)
+    2. Create an account
+    3. Navigate to **API Keys** section
+    4. Generate a new API key
+    5. Save this key securely
+
+    <Warning>Direct Moonshot access may have stricter rate limits and requires more configuration.</Warning>
+  </Tab>
+</Tabs>
+
+## Step 2: Install Claude Code Router
+
+The Claude Code Router acts as a local proxy to make Kimi K2 compatible with Claude-based tools:
+
+```bash
+# Install globally from npm
+npm install -g @musistudio/claude-code-router
+```
+
+<Warning>Don't clone from GitHub - the published npm version works better and is more stable.</Warning>
+
+## Step 3: Configure the Router
+
+Start the configuration process:
+
+```bash
+ccr start
+```
+
+You'll be prompted for configuration. Choose your setup:
+
+<Tabs>
+  <Tab title="OpenRouter Configuration">
+    ```bash
+    Provider name: openrouter
+    API base URL: https://openrouter.ai/api/v1
+    API key: sk-or-v1-your-actual-key-here
+    Model name: moonshotai/kimi-k2
+    ```
+  </Tab>
+  
+  <Tab title="Moonshot Configuration">
+    ```bash
+    Provider name: moonshot
+    API base URL: https://api.moonshot.ai/anthropic
+    API key: your-moonshot-api-key
+    Model name: kimi-k2
+    ```
+  </Tab>
+</Tabs>
+
+## Step 4: Verify Setup
+
+After successful configuration, you should see:
+
+```
+openrouter provider registered
+🚀 LLMs API server listening on http://127.0.0.1:3456
+```
+
+Test your setup with a simple command:
+
+```bash
+ccr code "Write a Python function to read CSV files"
+```
+
+## Step 5: Understanding Rate Limits
+
+### Free Tier Limitations
+
+<CardGroup cols={2}>
+  <Card title="Concurrency" icon="users">
+    **1 request** - Only one simultaneous API request
+  </Card>
+  <Card title="Tokens Per Minute" icon="clock">
+    **64,000 TPM** - Up to 64k tokens processed per minute
+  </Card>
+  <Card title="Requests Per Minute" icon="gauge">
+    **6 RPM** - Only 6 API calls per minute (one every 10 seconds)
+  </Card>
+  <Card title="Tokens Per Day" icon="calendar">
+    **3,000,000 TPD** - 3 million tokens maximum per day
+  </Card>
+</CardGroup>
+
+<Info>
+The 6 RPM limit makes the free tier suitable for testing and small personal projects, but you'll need to upgrade for production use.
+</Info>
+
+### Upgrading for Production
+
+For serious development work, consider upgrading:
+- As little as **$3** significantly improves rate limits
+- Better concurrency and RPM allowances
+- More suitable for production workflows
+
+## Advanced Configuration
+
+### Multiple Providers Setup
+
+Edit `~/.claude-code-router/config.json` to add multiple providers:
+
+```json
+{
+  "LOG": false,
+  "OPENAI_API_KEY": "",
+  "OPENAI_BASE_URL": "", 
+  "OPENAI_MODEL": "",
+  "Providers": [
+    {
+      "name": "openrouter",
+      "api_base_url": "https://openrouter.ai/api/v1",
+      "api_key": "sk-or-v1-your-key",
+      "models": ["moonshotai/kimi-k2"]
+    },
+    {
+      "name": "moonshot", 
+      "api_base_url": "https://api.moonshot.ai/anthropic",
+      "api_key": "your-moonshot-key",
+      "models": ["kimi-k2"]
+    }
+  ],
+  "Router": {
+    "default": "moonshot,kimi-k2",
+    "fallback": "openrouter,moonshotai/kimi-k2"
+  }
+}
+```
+
+### Why This Setup Works
+
+The Claude Code Router architecture:
+
+1. **Local Proxy** - Acts as a bridge between your tools and Kimi K2
+2. **Authentication** - Your API key authenticates with the chosen provider
+3. **Request Forwarding** - Provider forwards requests to Kimi K2
+4. **Billing** - You're billed through your chosen provider
+5. **Compatibility** - Any Claude-compatible tool can now use Kimi K2
+
+## Next Steps
+
+Now that you have Kimi K2 configured, you can:
+
+1. **Integrate with Qwen CLI** - Follow our [Qwen CLI Integration](/kimi-k2/qwen-cli) guide
+2. **Explore API Examples** - Check out [API Configuration Examples](/kimi-k2/api-examples)
+3. **Troubleshoot Issues** - Visit our [Troubleshooting Guide](/kimi-k2/troubleshooting)
+
+<Tip>
+Start with small test projects to understand Kimi K2's capabilities before integrating into larger workflows.
+</Tip>

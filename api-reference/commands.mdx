@@ -1,0 +1,621 @@
+---
+title: "CLI Commands Reference"
+description: "Complete documentation for all Qwen CLI commands, options, and usage patterns."
+---
+
+## Core Commands
+
+### `qwen` - Basic Generation
+
+The main command for the `qwen` CLI:
+
+<CodeGroup>
+```bash Basic Usage
+qwen "Create a React component for user authentication"
+qwen "Fix this TypeScript error: Cannot find name 'useState'"
+qwen "Optimize this SQL query for better performance"
+```
+
+```bash With Options
+qwen --model qwen/qwen-3-coder "Generate unit tests"
+qwen --temperature 0.1 --max-tokens 2048 "Create API documentation"
+qwen --context ./src "Add error handling to this application"
+```
+</CodeGroup>
+
+#### Options
+
+| Option | Short | Description | Default |
+|--------|-------|-------------|---------|
+| `--model` | `-m` | Specify AI model to use | `qwen/qwen-3-coder` |
+| `--temperature` | `-t` | Control creativity (0.0-1.0) | `0.1` |
+| `--max-tokens` | | Maximum response length | `4096` |
+| `--context` | `-c` | Include file/directory context | None |
+| `--file` | `-f` | Target specific file | None |
+| `--output` | `-o` | Output format (markdown, json, plain) | `markdown` |
+| `--cache` | | Enable response caching | `false` |
+| `--quiet` | `-q` | Suppress non-essential output | `false` |
+| `--verbose` | `-v` | Show detailed processing info | `false` |
+
+#### Examples
+
+<Tabs>
+  <Tab title="Code Generation">
+    ```bash
+    # Generate with specific model
+    qwen --model moonshotai/kimi-k2 "Build complete user dashboard"
+    
+    # Control response creativity
+    qwen --temperature 0.0 "Generate exact SQL query syntax"
+    qwen --temperature 0.3 "Create creative UI component design"
+    
+    # Limit response length
+    qwen --max-tokens 1024 "Brief explanation of React hooks"
+    ```
+  </Tab>
+  
+  <Tab title="File Operations">
+    ```bash
+    # Work with specific file
+    qwen --file ./components/Header.tsx "Add responsive mobile menu"
+    
+    # Include project context
+    qwen --context ./src "Create new component that fits existing architecture"
+    
+    # Output to file
+    qwen "Create README.md content" --output plain > README.md
+    ```
+  </Tab>
+  
+  <Tab title="Model Selection">
+    ```bash
+    # Fast coding tasks
+    qwen --model qwen/qwen-3-coder "Fix syntax error"
+    
+    # Complex applications
+    qwen --model moonshotai/kimi-k2 "Build complete feature"
+    
+    # Architecture and planning
+    qwen --model x-ai/grok-4 "Design system architecture"
+    ```
+  </Tab>
+</Tabs>
+
+## Authentication Commands
+
+### `qwen auth` - Authentication Setup
+
+Configure API keys and authentication settings.
+
+<CodeGroup>
+```bash Interactive Setup
+qwen auth
+```
+
+```bash Command Line Setup
+qwen auth --key sk-or-v1-your-api-key \
+          --base-url https://openrouter.ai/api/v1 \
+          --model qwen/qwen-3-coder
+```
+
+```bash Profile Management
+qwen auth --profile development --key dev-api-key
+qwen auth --profile production --key prod-api-key
+```
+</CodeGroup>
+
+#### Options
+
+| Option | Description | Example |
+|--------|-------------|---------|
+| `--key` | OpenRouter API key | `sk-or-v1-xxx...` |
+| `--base-url` | API base URL | `https://openrouter.ai/api/v1` |
+| `--model` | Default model | `qwen/qwen-3-coder` |
+| `--profile` | Configuration profile | `development` |
+| `--reset` | Reset authentication | - |
+
+### `qwen status` - Connection Status
+
+Check authentication and API connection status.
+
+```bash
+# Check general status
+qwen status
+
+# Check specific model availability
+qwen status --model moonshotai/kimi-k2
+
+# Test API connection
+qwen status --test-connection
+```
+
+## Configuration Commands
+
+### `qwen config` - Configuration Management
+
+Manage CLI configuration settings.
+
+<Tabs>
+  <Tab title="View Configuration">
+    ```bash
+    # Show all configuration
+    qwen config show
+    
+    # Show specific setting
+    qwen config get model
+    qwen config get max_tokens
+    ```
+  </Tab>
+  
+  <Tab title="Update Configuration">
+    ```bash
+    # Set default model
+    qwen config set model qwen/qwen-3-coder
+    
+    # Set response parameters
+    qwen config set temperature 0.1
+    qwen config set max_tokens 2048
+    
+    # Set output preferences
+    qwen config set output_format markdown
+    qwen config set include_comments true
+    ```
+  </Tab>
+  
+  <Tab title="Profile Management">
+    ```bash
+    # Create new profile
+    qwen config create-profile production
+    
+    # Switch profiles
+    qwen config use-profile development
+    
+    # List profiles
+    qwen config list-profiles
+    
+    # Delete profile
+    qwen config delete-profile old-project
+    ```
+  </Tab>
+</Tabs>
+
+#### Configuration Options
+
+| Setting | Description | Values | Default |
+|---------|-------------|--------|---------|
+| `model` | Default AI model | `qwen/qwen-3-coder`, `moonshotai/kimi-k2`, `x-ai/grok-4` | `qwen/qwen-3-coder` |
+| `temperature` | Response creativity | `0.0-1.0` | `0.1` |
+| `max_tokens` | Max response length | `1-32000` | `4096` |
+| `output_format` | Response format | `markdown`, `json`, `plain` | `markdown` |
+| `cache_enabled` | Enable caching | `true`, `false` | `false` |
+| `auto_context` | Auto-include project context | `true`, `false` | `true` |
+| `include_comments` | Add code comments | `true`, `false` | `true` |
+
+### `qwen init` - Project Initialization
+
+Initialize Qwen CLI for a project with custom settings.
+
+```bash
+# Initialize in current directory
+qwen init
+
+# Initialize with specific settings
+qwen init --model moonshotai/kimi-k2 \
+          --context-files "package.json,README.md,src/**/*.ts" \
+          --exclude "node_modules/**,dist/**"
+
+# Initialize for specific framework
+qwen init --template react-typescript
+qwen init --template node-express
+qwen init --template next-js
+```
+
+#### Generated `.qwen.json`
+
+```json
+{
+  "model": "qwen/qwen-3-coder",
+  "temperature": 0.1,
+  "max_tokens": 4096,
+  "context_files": [
+    "package.json",
+    "README.md",
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "exclude_patterns": [
+    "node_modules/**",
+    "dist/**",
+    ".git/**",
+    "*.log"
+  ],
+  "coding_standards": {
+    "language": "typescript",
+    "framework": "react",
+    "style": "functional",
+    "testing": "jest"
+  },
+  "custom_instructions": "Always use TypeScript, prefer functional components, include error handling"
+}
+```
+
+## File Operation Commands
+
+### `qwen analyze` - Code Analysis
+
+Analyze code files for various aspects.
+
+<CodeGroup>
+```bash File Analysis
+# Analyze specific file
+qwen analyze ./src/components/Dashboard.tsx
+
+# Performance analysis
+qwen analyze --focus performance ./utils/dataProcessor.js
+
+# Security audit
+qwen analyze --focus security ./api/routes/auth.js
+
+# Code quality review
+qwen analyze --focus quality ./src/**/*.ts
+```
+
+```bash Analysis Types
+qwen analyze --type performance ./slow-function.js
+qwen analyze --type security ./auth-middleware.js
+qwen analyze --type maintainability ./legacy-code.js
+qwen analyze --type bugs ./problematic-file.ts
+```
+</CodeGroup>
+
+#### Analysis Options
+
+| Option | Description | Values |
+|--------|-------------|--------|
+| `--focus` | Analysis focus area | `performance`, `security`, `quality`, `bugs` |
+| `--type` | Analysis type | `full`, `quick`, `deep` |
+| `--format` | Output format | `markdown`, `json`, `report` |
+| `--fix` | Include fix suggestions | `true`, `false` |
+
+### `qwen review` - Code Review
+
+Perform automated code reviews with suggestions.
+
+<Tabs>
+  <Tab title="Single File Review">
+    ```bash
+    # Basic review
+    qwen review ./src/components/UserProfile.tsx
+    
+    # Comprehensive review
+    qwen review --comprehensive ./api/routes/users.js
+    
+    # Focus on specific aspects
+    qwen review --focus security,performance ./payment-processor.js
+    ```
+  </Tab>
+  
+  <Tab title="Batch Review">
+    ```bash
+    # Review multiple files
+    qwen review --pattern "**/*.ts" --exclude "**/*.test.ts"
+    
+    # Review changed files (Git)
+    qwen review --changed-files
+    
+    # Review specific directory
+    qwen review --recursive ./src/components
+    ```
+  </Tab>
+  
+  <Tab title="Review Formats">
+    ```bash
+    # GitHub PR format
+    qwen review --format github-pr ./src
+    
+    # GitLab MR format
+    qwen review --format gitlab-mr ./src
+    
+    # JSON report
+    qwen review --format json ./src > review-report.json
+    ```
+  </Tab>
+</Tabs>
+
+### `qwen fix` - Automated Fixes
+
+Apply automated fixes to code issues.
+
+<CodeGroup>
+```bash Error Fixes
+# Fix TypeScript errors
+qwen fix --type typescript ./src/**/*.ts
+
+# Fix ESLint issues
+qwen fix --type eslint ./components
+
+# Fix formatting issues
+qwen fix --type prettier ./src
+```
+
+```bash Specific Fixes
+# Fix specific error
+qwen fix "Cannot find name 'useState'" ./component.tsx
+
+# Fix performance issues
+qwen fix --performance ./slow-component.tsx
+
+# Fix security issues
+qwen fix --security ./auth-middleware.js
+```
+</CodeGroup>
+
+## Batch Operation Commands
+
+### `qwen batch` - Batch Processing
+
+Process multiple files or perform bulk operations.
+
+<Tabs>
+  <Tab title="Batch Generation">
+    ```bash
+    # Add tests to multiple files
+    qwen batch test --pattern "src/**/*.js" --framework jest
+    
+    # Add TypeScript types
+    qwen batch add-types --pattern "**/*.js" --exclude node_modules
+    
+    # Generate documentation
+    qwen batch document --pattern "**/*.ts" --format jsdoc
+    ```
+  </Tab>
+  
+  <Tab title="Code Transformations">
+    ```bash
+    # Convert JavaScript to TypeScript
+    qwen batch convert --from js --to ts ./src
+    
+    # Modernize ES5 to ES2022
+    qwen batch modernize --target es2022 ./legacy
+    
+    # Add error handling
+    qwen batch add-error-handling --pattern "**/*.js"
+    ```
+  </Tab>
+  
+  <Tab title="Quality Improvements">
+    ```bash
+    # Optimize performance
+    qwen batch optimize --focus performance ./src
+    
+    # Add security measures
+    qwen batch secure --pattern "**/*.js"
+    
+    # Improve maintainability
+    qwen batch refactor --pattern "**/*.tsx"
+    ```
+  </Tab>
+</Tabs>
+
+#### Batch Options
+
+| Option | Description | Example |
+|--------|-------------|---------|
+| `--pattern` | File matching pattern | `"**/*.ts"` |
+| `--exclude` | Exclusion patterns | `"node_modules/**"` |
+| `--workers` | Parallel workers | `4` |
+| `--dry-run` | Preview changes | `true` |
+| `--backup` | Create backups | `true` |
+
+## Utility Commands
+
+### `qwen template` - Template Management
+
+Manage and use code templates.
+
+<CodeGroup>
+```bash Template Creation
+# Create reusable template
+qwen template create react-component \
+  "Functional React component with TypeScript and props interface"
+
+# Create API template
+qwen template create api-endpoint \
+  "Express.js endpoint with validation, auth, and error handling"
+```
+
+```bash Template Usage
+# Use template
+qwen template use react-component --name UserCard --props "user: User"
+
+# List templates
+qwen template list
+
+# Delete template
+qwen template delete old-template
+```
+</CodeGroup>
+
+### `qwen usage` - Usage Statistics
+
+Monitor API usage and costs.
+
+<Tabs>
+  <Tab title="Usage Reports">
+    ```bash
+    # Daily usage
+    qwen usage --period day
+    
+    # Monthly breakdown
+    qwen usage --period month --detailed
+    
+    # By model
+    qwen usage --model qwen/qwen-3-coder --period week
+    ```
+  </Tab>
+  
+  <Tab title="Cost Analysis">
+    ```bash
+    # Cost report
+    qwen costs --period month
+    
+    # Project costs
+    qwen costs --project myapp --detailed
+    
+    # Compare models
+    qwen costs --compare-models
+    ```
+  </Tab>
+  
+  <Tab title="Limits and Budgets">
+    ```bash
+    # Set spending limits
+    qwen limits set --daily 10 --monthly 200
+    
+    # Budget alerts
+    qwen budget set --warning 80 --limit 100
+    
+    # Usage alerts
+    qwen alerts create --type usage --threshold 1000
+    ```
+  </Tab>
+</Tabs>
+
+### `qwen interactive` - Interactive Mode
+
+Start an interactive chat session.
+
+```bash
+# Start interactive mode
+qwen interactive
+
+# Interactive with specific model
+qwen interactive --model moonshotai/kimi-k2
+
+# Interactive with project context
+qwen interactive --context ./src
+
+# Example interactive session:
+> "Create a login form"
+> "Add validation to the form"
+> "Now add TypeScript types"
+> "Create unit tests for this component"
+```
+
+## Advanced Commands
+
+### `qwen workflow` - Workflow Automation
+
+Create and run automated development workflows.
+
+<CodeGroup>
+```bash Workflow Creation
+# Create development workflow
+qwen workflow create development \
+  "analyze -> generate -> test -> review"
+
+# Create deployment workflow
+qwen workflow create deploy \
+  "build -> test -> security-scan -> deploy"
+```
+
+```bash Workflow Execution
+# Run workflow
+qwen workflow run development ./src
+
+# Schedule workflow
+qwen workflow schedule daily-review \
+  --cron "0 9 * * 1-5" \
+  --command "qwen review --changed-files"
+```
+</CodeGroup>
+
+### `qwen compare` - Model Comparison
+
+Compare outputs from different models.
+
+```bash
+# Compare models for same task
+qwen compare --models "qwen/qwen-3-coder,moonshotai/kimi-k2" \
+  "Create user authentication system"
+
+# Performance comparison
+qwen compare --benchmark speed \
+  --models "qwen/qwen-3-coder,moonshotai/kimi-k2"
+
+# Cost comparison
+qwen compare --cost --task "Generate API documentation"
+```
+
+## Global Options
+
+These options work with most commands:
+
+| Option | Description | Example |
+|--------|-------------|---------|
+| `--help` | Show command help | `qwen review --help` |
+| `--version` | Show version info | `qwen --version` |
+| `--config` | Use specific config file | `--config ./team-config.json` |
+| `--profile` | Use specific profile | `--profile production` |
+| `--no-cache` | Disable caching | `--no-cache` |
+| `--debug` | Enable debug output | `--debug` |
+| `--json` | JSON output format | `--json` |
+
+## Exit Codes
+
+| Code | Meaning |
+|------|---------|
+| `0` | Success |
+| `1` | General error |
+| `2` | Invalid arguments |
+| `3` | Authentication error |
+| `4` | API error |
+| `5` | File not found |
+| `6` | Network error |
+
+## Examples by Use Case
+
+### Daily Development
+
+<CodeGroup>
+```bash Morning Routine
+# Check status and recent activity
+qwen status
+qwen usage --period day
+
+# Review overnight changes
+qwen review --changed-files --since yesterday
+```
+
+```bash Active Development
+# Generate new features
+qwen "Create user profile component with avatar upload"
+
+# Fix issues
+qwen fix "ReferenceError: process is not defined"
+
+# Add tests
+qwen batch test --pattern "src/components/**/*.tsx"
+```
+
+```bash End of Day
+# Review code quality
+qwen review --comprehensive ./src
+
+# Generate documentation
+qwen batch document --updated-files
+
+# Check usage and costs
+qwen usage --detailed
+```
+</CodeGroup>
+
+<Tip>
+**Pro Tip**: Use command aliases for frequently used commands:
+```bash
+alias qg="qwen generate"
+alias qr="qwen review"
+alias qa="qwen analyze" 
+alias qf="qwen fix"
+```
+</Tip>

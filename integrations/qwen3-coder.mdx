@@ -1,0 +1,716 @@
+---
+title: "Qwen 3 Coder Integration"
+description: ""
+---
+
+<Tip>
+**First-time setup?** Make sure to authenticate with the Qwen 3 Coder model before using. Run `qwen auth` and select `qwen/qwen-3-coder` as your model, or visit our [Authentication guide](/authentication) for detailed setup instructions.
+</Tip>
+
+Qwen 3 Coder is a specialized AI model optimized for software development tasks. It excels at code generation, debugging, refactoring, and technical documentation with exceptional speed and accuracy.
+
+## Key Strengths
+
+<CardGroup cols={2}>
+  <Card title="Lightning Fast" icon="bolt">
+    Sub-second response times for most coding tasks
+  </Card>
+  <Card title="Multi-Language Expert" icon="code">
+    Proficient in 40+ programming languages and frameworks
+  </Card>
+  <Card title="Cost Effective" icon="dollar-sign">
+    Most affordable option for frequent development work
+  </Card>
+  <Card title="High Quality Output" icon="star">
+    Clean, production-ready code with proper documentation
+  </Card>
+</CardGroup>
+
+## Getting Started
+
+### Basic Setup
+
+```bash
+# Set Qwen 3 Coder as default model
+qwen config set model qwen/qwen-3-coder
+
+# Verify configuration
+qwen status --model qwen/qwen-3-coder
+```
+
+### First Code Generation
+
+<CodeGroup>
+```bash Simple Function
+qwen "Create a Python function to validate email addresses with regex"
+```
+
+```bash API Endpoint  
+qwen "Build an Express.js endpoint for user registration with validation"
+```
+
+```bash React Component
+qwen "Create a responsive navigation bar component in React with TypeScript"
+```
+</CodeGroup>
+
+## Core Capabilities
+
+### 1. Code Generation
+
+Generate complete, working code from natural language descriptions:
+
+<Tabs>
+  <Tab title="Web Development">
+    ```bash
+    # Frontend components
+    qwen "Create a Vue.js component for a product card with image, price, and rating"
+    
+    # Backend APIs
+    qwen "Build a Node.js REST API for task management with CRUD operations"
+    
+    # Full-stack integration
+    qwen "Create authentication middleware for Express with JWT tokens"
+    ```
+    
+    **Example Output:**
+    ```javascript
+    const jwt = require('jsonwebtoken');
+    
+    const authenticateToken = (req, res, next) => {
+      const authHeader = req.headers['authorization'];
+      const token = authHeader && authHeader.split(' ')[1];
+      
+      if (!token) {
+        return res.status(401).json({ error: 'Access token required' });
+      }
+      
+      jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) {
+          return res.status(403).json({ error: 'Invalid token' });
+        }
+        req.user = user;
+        next();
+      });
+    };
+    
+    module.exports = authenticateToken;
+    ```
+  </Tab>
+  
+  <Tab title="Data Science">
+    ```bash
+    # Data analysis
+    qwen "Create a Python script to analyze CSV data and generate visualizations"
+    
+    # Machine learning
+    qwen "Build a scikit-learn pipeline for customer segmentation"
+    
+    # Data processing
+    qwen "Create pandas functions to clean and transform financial data"
+    ```
+    
+    **Example Output:**
+    ```python
+    import pandas as pd
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    
+    def analyze_sales_data(filepath):
+        # Load and validate data
+        df = pd.read_csv(filepath)
+        
+        # Basic statistics
+        print("Dataset Info:")
+        print(f"Shape: {df.shape}")
+        print(f"Missing values: {df.isnull().sum().sum()}")
+        
+        # Generate visualizations
+        fig, axes = plt.subplots(2, 2, figsize=(15, 10))
+        
+        # Sales over time
+        df.groupby('month')['sales'].sum().plot(ax=axes[0,0])
+        axes[0,0].set_title('Monthly Sales Trend')
+        
+        # Top products
+        df.groupby('product')['sales'].sum().nlargest(10).plot(
+            kind='bar', ax=axes[0,1]
+        )
+        axes[0,1].set_title('Top 10 Products by Sales')
+        
+        return df
+    ```
+  </Tab>
+  
+  <Tab title="DevOps & Infrastructure">
+    ```bash
+    # Docker configurations
+    qwen "Create a Dockerfile for a Next.js application with multi-stage build"
+    
+    # CI/CD pipelines
+    qwen "Generate GitHub Actions workflow for testing and deployment"
+    
+    # Infrastructure as code
+    qwen "Create Terraform configuration for AWS ECS deployment"
+    ```
+    
+    **Example Output:**
+    ```dockerfile
+    # Multi-stage Dockerfile for Next.js
+    FROM node:18-alpine AS deps
+    RUN apk add --no-cache libc6-compat
+    WORKDIR /app
+    COPY package.json package-lock.json ./
+    RUN npm ci --only=production
+    
+    FROM node:18-alpine AS builder
+    WORKDIR /app
+    COPY --from=deps /app/node_modules ./node_modules
+    COPY . .
+    RUN npm run build
+    
+    FROM node:18-alpine AS runner
+    WORKDIR /app
+    ENV NODE_ENV production
+    
+    COPY --from=builder /app/public ./public
+    COPY --from=builder /app/.next/standalone ./
+    COPY --from=builder /app/.next/static ./.next/static
+    
+    EXPOSE 3000
+    CMD ["node", "server.js"]
+    ```
+  </Tab>
+  
+  <Tab title="Mobile Development">
+    ```bash
+    # React Native
+    qwen "Create a React Native screen for user profile with form validation"
+    
+    # Flutter
+    qwen "Build a Flutter widget for a shopping cart with item management"
+    
+    # iOS/Android
+    qwen "Create a Swift view controller for camera functionality"
+    ```
+  </Tab>
+</Tabs>
+
+### 2. Code Review and Analysis
+
+Analyze existing code for improvements, bugs, and optimizations:
+
+<CodeGroup>
+```bash File Analysis
+# Analyze a specific file
+qwen analyze ./src/components/Dashboard.tsx
+
+# Review for security issues
+qwen security-review ./api/routes/auth.js
+
+# Performance analysis
+qwen performance ./utils/dataProcessor.js
+```
+
+```bash Batch Analysis
+# Review entire project
+qwen review --recursive ./src
+
+# Check code style
+qwen style-check --standard airbnb ./components
+
+# Dependency analysis
+qwen deps analyze package.json
+```
+</CodeGroup>
+
+### 3. Debugging and Error Resolution
+
+Quickly identify and fix bugs in your code:
+
+<Tabs>
+  <Tab title="Error Messages">
+    ```bash
+    # Debug specific errors
+    qwen debug "TypeError: Cannot read property 'map' of undefined"
+    
+    # Stack trace analysis
+    qwen trace ./error-log.txt
+    
+    # Fix compilation errors
+    qwen fix-ts-errors ./src/types/index.ts
+    ```
+    
+    **Response includes:**
+    - Root cause analysis
+    - Step-by-step fix instructions
+    - Corrected code examples
+    - Prevention strategies
+  </Tab>
+  
+  <Tab title="Code Issues">
+    ```bash
+    # Logic errors
+    qwen "Fix infinite loop in this React useEffect hook" --file ./component.jsx
+    
+    # Performance issues
+    qwen "Optimize slow database query" --query "SELECT * FROM users WHERE..."
+    
+    # Memory leaks
+    qwen "Find memory leak in this Node.js application" --file ./server.js
+    ```
+  </Tab>
+  
+  <Tab title="Integration Issues">
+    ```bash
+    # API integration problems
+    qwen "Fix CORS issues with React and Express setup"
+    
+    # Database connection issues
+    qwen "Debug MongoDB connection timeout in Node.js"
+    
+    # Authentication problems
+    qwen "Fix JWT token validation failing intermittently"
+    ```
+  </Tab>
+</Tabs>
+
+### 4. Code Refactoring and Optimization
+
+Improve existing code structure and performance:
+
+<AccordionGroup>
+  <Accordion title="Structure Improvements">
+    ```bash
+    # Convert to modern syntax
+    qwen refactor --target es2022 ./legacy-code.js
+    
+    # Add TypeScript types
+    qwen add-types ./javascript-file.js
+    
+    # Extract reusable components
+    qwen extract-component ./large-component.jsx
+    ```
+  </Accordion>
+  
+  <Accordion title="Performance Optimizations">
+    ```bash
+    # Optimize React components
+    qwen optimize-react ./components/ExpensiveComponent.tsx
+    
+    # Database query optimization
+    qwen optimize-sql "SELECT * FROM orders WHERE customer_id = ?"
+    
+    # Algorithm improvements
+    qwen optimize-algorithm ./sorting-function.py
+    ```
+  </Accordion>
+  
+  <Accordion title="Code Quality">
+    ```bash
+    # Add error handling
+    qwen add-error-handling ./api-client.js
+    
+    # Improve code documentation
+    qwen document ./complex-function.ts
+    
+    # Add unit tests
+    qwen test --framework jest ./utility-functions.js
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Language-Specific Features
+
+### JavaScript/TypeScript
+
+<CodeGroup>
+```bash Modern JavaScript
+# ES6+ features
+qwen "Convert this callback-based code to async/await"
+
+# TypeScript integration
+qwen "Add proper TypeScript types to this JavaScript module"
+
+# Framework-specific
+qwen "Create Next.js API route with input validation"
+```
+
+```bash React Development
+# Component generation
+qwen "Create React hook for API data fetching with loading states"
+
+# State management
+qwen "Add Redux toolkit slice for user management"
+
+# Testing
+qwen "Write React Testing Library tests for this component"
+```
+</CodeGroup>
+
+### Python
+
+<CodeGroup>
+```bash Web Development
+# Django/Flask
+qwen "Create Django REST API viewset with pagination"
+
+# FastAPI
+qwen "Build FastAPI endpoint with Pydantic models and validation"
+
+# Authentication
+qwen "Implement OAuth2 authentication with Python requests"
+```
+
+```bash Data Science
+# Analysis
+qwen "Create pandas pipeline for time series data analysis"
+
+# Visualization
+qwen "Generate matplotlib charts for quarterly sales data"
+
+# Machine Learning
+qwen "Build scikit-learn model for binary classification"
+```
+</CodeGroup>
+
+### Other Languages
+
+<Tabs>
+  <Tab title="Java">
+    ```bash
+    # Spring Boot
+    qwen "Create Spring Boot REST controller with JPA integration"
+    
+    # Android
+    qwen "Build Android Activity with RecyclerView and data binding"
+    
+    # Enterprise patterns
+    qwen "Implement Repository pattern with Spring Data"
+    ```
+  </Tab>
+  
+  <Tab title="C#/.NET">
+    ```bash
+    # ASP.NET Core
+    qwen "Create .NET Core Web API with Entity Framework"
+    
+    # Desktop apps
+    qwen "Build WPF application with MVVM pattern"
+    
+    # Microservices
+    qwen "Create .NET microservice with Docker support"
+    ```
+  </Tab>
+  
+  <Tab title="Go">
+    ```bash
+    # Web services
+    qwen "Create Go HTTP server with Gorilla Mux routing"
+    
+    # Concurrency
+    qwen "Implement worker pool pattern in Go"
+    
+    # CLI tools
+    qwen "Build command-line tool with Cobra framework"
+    ```
+  </Tab>
+  
+  <Tab title="Rust">
+    ```bash
+    # Web development
+    qwen "Create Actix-web REST API with database integration"
+    
+    # System programming
+    qwen "Implement thread-safe data structure in Rust"
+    
+    # Performance-critical
+    qwen "Write high-performance JSON parser in Rust"
+    ```
+  </Tab>
+</Tabs>
+
+## Advanced Usage Patterns
+
+### Context-Aware Development
+
+Provide project context for better results:
+
+<CodeGroup>
+```bash Project Context
+# Initialize project context
+qwen init --scan-project
+
+# Use existing codebase context
+qwen --context ./src "Add user authentication to this app"
+
+# Framework-aware generation
+qwen --framework react --typescript "Create form component"
+```
+
+```json .qwen-context.json
+{
+  "project_type": "fullstack-web",
+  "frontend": {
+    "framework": "react",
+    "language": "typescript",
+    "styling": "tailwindcss"
+  },
+  "backend": {
+    "framework": "express",
+    "database": "postgresql",
+    "orm": "prisma"
+  },
+  "coding_standards": {
+    "linter": "eslint",
+    "formatter": "prettier",
+    "testing": "jest"
+  }
+}
+```
+</CodeGroup>
+
+### Template-Based Generation
+
+Create reusable code templates:
+
+<CodeGroup>
+```bash Template Creation
+# Create component template
+qwen template create react-component \
+  "Functional React component with TypeScript and props interface"
+
+# Use template
+qwen template use react-component --name UserCard --props "user: User"
+```
+
+```bash Custom Templates
+# API endpoint template
+qwen template create api-endpoint \
+  "Express.js endpoint with validation, auth, and error handling"
+
+# Database model template  
+qwen template create db-model \
+  "Prisma model with relations and validation"
+```
+</CodeGroup>
+
+### Batch Operations
+
+Process multiple files efficiently:
+
+<CodeGroup>
+```bash File Processing
+# Add types to multiple files
+qwen batch add-types --pattern "**/*.js" --exclude node_modules
+
+# Convert files
+qwen batch convert --from javascript --to typescript ./src
+
+# Add documentation
+qwen batch document --pattern "**/*.{ts,js}" --style jsdoc
+```
+
+```bash Code Migration
+# Framework migration
+qwen migrate --from vue2 --to vue3 ./components
+
+# Library updates
+qwen update-deps --package lodash --to ramda
+
+# Modernize codebase
+qwen modernize --target es2022 --add-types ./legacy
+```
+</CodeGroup>
+
+## Performance and Optimization
+
+### Speed Optimization
+
+<AccordionGroup>
+  <Accordion title="Response Time Settings">
+    ```bash
+    # Fast responses (lower quality)
+    qwen config set temperature 0.1
+    qwen config set max_tokens 2048
+    
+    # Use for quick tasks
+    qwen --quick "Fix syntax error"
+    ```
+  </Accordion>
+  
+  <Accordion title="Caching">
+    ```bash
+    # Enable response caching
+    qwen config set cache_enabled true
+    
+    # Cache expensive operations
+    qwen --cache analyze ./large-codebase
+    ```
+  </Accordion>
+  
+  <Accordion title="Parallel Processing">
+    ```bash
+    # Process multiple files in parallel
+    qwen parallel review --files "./src/**/*.ts" --workers 4
+    
+    # Batch operations with concurrency
+    qwen batch test --pattern "**/*.js" --parallel 3
+    ```
+  </Accordion>
+</AccordionGroup>
+
+### Cost Management
+
+<CardGroup cols={2}>
+  <Card title="Token Optimization" icon="coins">
+    ```bash
+    # Minimize token usage
+    qwen --concise "Generate login function"
+    
+    # Use context efficiently
+    qwen --context-limit 1000 analyze ./file.ts
+    ```
+  </Card>
+  
+  <Card title="Usage Tracking" icon="chart-bar">
+    ```bash
+    # Monitor usage
+    qwen usage --model qwen/qwen-3-coder
+    
+    # Set spending limits
+    qwen limits set --daily 10 --model qwen/qwen-3-coder
+    ```
+  </Card>
+</CardGroup>
+
+## CI/CD Integration
+
+
+
+<CodeGroup>
+```yaml GitHub Actions
+name: AI Code Review
+on: [pull_request]
+
+jobs:
+  ai-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Qwen CLI
+        run: npm install -g @qwen-code/qwen-code
+      
+      - name: Code Review
+        run: |
+          qwen --model qwen/qwen-3-coder \
+               review --format github-comment \
+               --files "$(git diff --name-only origin/main)"
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+```
+
+```yaml GitLab CI
+stages:
+  - code-quality
+
+ai-review:
+  stage: code-quality
+  script:
+    - npm install -g @qwen-code/qwen-code
+    - qwen --model qwen/qwen-3-coder review --gitlab-format ./src
+  only:
+    - merge_requests
+```
+</CodeGroup>
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Code Generation">
+    **Do:**
+    - Provide clear, specific requirements
+    - Include context about your tech stack
+    - Specify coding standards and preferences
+    - Ask for comments and documentation
+    
+    **Don't:**
+    - Generate code without understanding it
+    - Skip testing generated code
+    - Ignore security considerations
+    - Use without reviewing output
+  </Accordion>
+  
+  <Accordion title="Debugging">
+    **Effective Debugging:**
+    - Include error messages and stack traces
+    - Provide relevant code context
+    - Specify your environment (OS, versions)
+    - Ask for explanation of the root cause
+    
+    **Example:**
+    ```bash
+    qwen debug --error "TypeError: user.map is not a function" \
+               --context ./UserList.tsx \
+               --environment "React 18, TypeScript 4.8"
+    ```
+  </Accordion>
+  
+  <Accordion title="Code Review">
+    **Review Focus Areas:**
+    - Security vulnerabilities
+    - Performance bottlenecks  
+    - Code maintainability
+    - Best practices adherence
+    - Documentation quality
+    
+    ```bash
+    qwen review --focus security,performance,maintainability ./src
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Common Issues">
+    **Issue**: Generated code doesn't match my coding style
+    
+    **Solution**: Set up project context and coding standards
+    ```bash
+    qwen config set coding_style "./eslint.config.js"
+    qwen config set formatter prettier
+    ```
+  </Accordion>
+  
+  <Accordion title="Performance Issues">
+    **Issue**: Slow response times
+    
+    **Solution**: Optimize request parameters
+    ```bash
+    # Reduce context and increase speed
+    qwen config set max_tokens 1024
+    qwen config set temperature 0.1
+    qwen --quick "Simple task here"
+    ```
+  </Accordion>
+  
+  <Accordion title="Quality Issues">
+    **Issue**: Generated code has bugs
+    
+    **Solution**: Improve prompts and add validation
+    ```bash
+    # More specific prompts
+    qwen "Create React component with TypeScript, error boundaries, and unit tests"
+    
+    # Add validation step
+    qwen validate ./generated-code.tsx
+    ```
+  </Accordion>
+</AccordionGroup>
+
+
+
+<Tip>
+**Pro Tip**: Qwen 3 Coder is perfect for 80% of development tasks. Use it as your primary model and upgrade to Kimi K2 or Grok 4 only when you need their specialized capabilities.
+</Tip>

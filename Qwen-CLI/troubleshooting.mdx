@@ -1,0 +1,430 @@
+---
+title: "Troubleshooting Guide"
+description: "Common issues and solutions when integrating Kimi K2 API and Qwen CLI"
+---
+
+# Troubleshooting Kimi K2 Integration
+
+This guide covers common issues you might encounter when integrating Kimi K2 and their solutions.
+
+## Installation Issues
+
+### `ccr command not found`
+
+<AccordionGroup>
+  <Accordion title="Symptom">
+    Running `ccr start` returns "command not found" error.
+  </Accordion>
+  
+  <Accordion title="Solution">
+    1. Ensure you installed globally:
+       ```bash
+       npm install -g @musistudio/claude-code-router
+       ```
+    
+    2. Check Node.js is installed:
+       ```bash
+       node --version
+       npm --version
+       ```
+    
+    3. Verify npm global bin directory is in your PATH:
+       ```bash
+       npm config get prefix
+       echo $PATH
+       ```
+    
+    4. If the global bin directory isn't in PATH, add it:
+       ```bash
+       export PATH=$(npm config get prefix)/bin:$PATH
+       ```
+  </Accordion>
+</AccordionGroup>
+
+### Qwen CLI Installation Fails
+
+<AccordionGroup>
+  <Accordion title="Symptom">
+    `npm install -g @qwen-code/qwen-code` fails with permission errors.
+  </Accordion>
+  
+  <Accordion title="Solution">
+    **On macOS/Linux:**
+    ```bash
+    sudo npm install -g @qwen-code/qwen-code
+    ```
+    
+    **Better approach - configure npm to use a different directory:**
+    ```bash
+    mkdir ~/.npm-global
+    npm config set prefix '~/.npm-global'
+    export PATH=~/.npm-global/bin:$PATH
+    npm install -g @qwen-code/qwen-code
+    ```
+    
+    **On Windows:**
+    Run Command Prompt as Administrator, then install.
+  </Accordion>
+</AccordionGroup>
+
+## Configuration Issues
+
+### API Key Authentication Fails
+
+<AccordionGroup>
+  <Accordion title="Symptom">
+    "Invalid API key" or "Authentication failed" errors.
+  </Accordion>
+  
+  <Accordion title="Solution">
+    1. **Verify API key format:**
+       - OpenRouter keys start with `sk-or-v1-`
+       - Moonshot keys have different format
+    
+    2. **Check key validity:**
+       ```bash
+       curl -H "Authorization: Bearer sk-or-v1-your-key" \
+            https://openrouter.ai/api/v1/models
+       ```
+    
+    3. **Ensure sufficient credits:**
+       - Check your OpenRouter/Moonshot account balance
+       - Free tiers have strict limitations
+    
+    4. **Regenerate API key if needed:**
+       - Sometimes keys become corrupted during copy/paste
+  </Accordion>
+</AccordionGroup>
+
+### Router Configuration Not Found
+
+<AccordionGroup>
+  <Accordion title="Symptom">
+    Claude Code Router can't find or load configuration.
+  </Accordion>
+  
+  <Accordion title="Solution">
+    1. **Check configuration file location:**
+       ```bash
+       ls -la ~/.claude-code-router/
+       ```
+    
+    2. **Manually edit configuration:**
+       ```bash
+       open ~/.claude-code-router/config.json
+       ```
+       
+    3. **Reset configuration:**
+       ```bash
+       rm -rf ~/.claude-code-router/
+       ccr start
+       ```
+       
+    4. **Ensure proper JSON format:**
+       ```json
+       {
+         "Providers": [
+           {
+             "name": "openrouter",
+             "api_base_url": "https://openrouter.ai/api/v1",
+             "api_key": "sk-or-v1-your-key",
+             "models": ["moonshotai/kimi-k2"]
+           }
+         ]
+       }
+       ```
+  </Accordion>
+</AccordionGroup>
+
+## API Connection Issues
+
+### Rate Limit Exceeded
+
+<AccordionGroup>
+  <Accordion title="Symptom">
+    "Rate limit exceeded" or 429 HTTP status errors.
+  </Accordion>
+  
+  <Accordion title="Solution">
+    **Free Tier Limitations:**
+    - 6 requests per minute (1 every 10 seconds)
+    - 1 concurrent request maximum
+    - 64,000 tokens per minute
+    
+    **Solutions:**
+    1. **Add delays between requests:**
+       ```javascript
+       await new Promise(resolve => setTimeout(resolve, 10000)); // Wait 10 seconds
+       ```
+    
+    2. **Implement retry logic:**
+       ```javascript
+       async function withRetry(fn, maxRetries = 3) {
+         for (let i = 0; i < maxRetries; i++) {
+           try {
+             return await fn();
+           } catch (error) {
+             if (error.status === 429 && i < maxRetries - 1) {
+               await new Promise(resolve => setTimeout(resolve, (i + 1) * 10000));
+             } else {
+               throw error;
+             }
+           }
+         }
+       }
+       ```
+    
+    3. **Upgrade your plan:**
+       - Even $3 significantly improves rate limits
+  </Accordion>
+</AccordionGroup>
+
+### Request Timeout Issues
+
+<AccordionGroup>
+  <Accordion title="Symptom">
+    Requests hanging or timing out, especially for complex tasks.
+  </Accordion>
+  
+  <Accordion title="Solution">
+    1. **Increase timeout values:**
+       ```javascript
+       const controller = new AbortController();
+       const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 seconds
+       
+       fetch(url, {
+         signal: controller.signal,
+         // ... other options
+       });
+       ```
+    
+    2. **Break down complex requests:**
+       ```javascript
+       // Instead of one large request
+       const result = await generateEntireApplication(prompt);
+       
+       // Break into smaller chunks
+       const structure = await generateProjectStructure(prompt);
+       const components = await generateComponents(structure);
+       const tests = await generateTests(components);
+       ```
+    
+    3. **Check network connectivity:**
+       ```bash
+       curl -I https://openrouter.ai/api/v1/models
+       ```
+  </Accordion>
+</AccordionGroup>
+
+### Model Not Available
+
+<AccordionGroup>
+  <Accordion title="Symptom">
+    "Model not found" or "moonshotai/kimi-k2 not available" errors.
+  </Accordion>
+  
+  <Accordion title="Solution">
+    1. **Verify model name:**
+       ```bash
+       curl -H "Authorization: Bearer your-key" \
+            https://openrouter.ai/api/v1/models | grep kimi
+       ```
+    
+    2. **Use correct model identifier:**
+       - OpenRouter: `moonshotai/kimi-k2`
+       - Direct Moonshot: `kimi-k2`
+    
+    3. **Check model availability:**
+       - Some models may have regional restrictions
+       - Ensure your account has access to the model
+  </Accordion>
+</AccordionGroup>
+
+## Qwen CLI Issues
+
+### Authentication Loop
+
+<AccordionGroup>
+  <Accordion title="Symptom">
+    Qwen CLI repeatedly asks for authentication credentials.
+  </Accordion>
+  
+  <Accordion title="Solution">
+    1. **Check configuration file:**
+       ```bash
+       qwen config show
+       ```
+    
+    2. **Manually set configuration:**
+       ```bash
+       qwen config set api_key "sk-or-v1-your-key"
+       qwen config set base_url "https://openrouter.ai/api/v1"
+       qwen config set model "moonshotai/kimi-k2"
+       ```
+    
+    3. **Clear corrupted config:**
+       ```bash
+       qwen config reset
+       ```
+  </Accordion>
+</AccordionGroup>
+
+### Context Issues
+
+<AccordionGroup>
+  <Accordion title="Symptom">
+    Qwen CLI not understanding project context or giving irrelevant responses.
+  </Accordion>
+  
+  <Accordion title="Solution">
+    1. **Run from project root:**
+       ```bash
+       cd /path/to/your/project
+       qwen "Analyze this codebase"
+       ```
+    
+    2. **Create .qwen configuration:**
+       ```json
+       {
+         "context_files": [
+           "package.json",
+           "README.md",
+           "src/**/*.ts"
+         ],
+         "ignore_patterns": [
+           "node_modules/**",
+           "*.log"
+         ]
+       }
+       ```
+    
+    3. **Provide explicit context:**
+       ```bash
+       qwen "Given this React project with TypeScript, help me..."
+       ```
+  </Accordion>
+</AccordionGroup>
+
+## Performance Issues
+
+### High Token Usage/Costs
+
+<AccordionGroup>
+  <Accordion title="Symptom">
+    Unexpectedly high costs or rapid token consumption.
+  </Accordion>
+  
+  <Accordion title="Solution">
+    1. **Monitor usage:**
+       ```javascript
+       function trackUsage(result) {
+         console.log('Tokens used:', result.usage?.total_tokens);
+         console.log('Estimated cost:', result.usage?.total_tokens * 0.000001);
+       }
+       ```
+    
+    2. **Optimize prompts:**
+       ```javascript
+       // Inefficient
+       const prompt = "Here's my entire codebase: " + massiveCodeString;
+       
+       // Efficient
+       const prompt = "For this React component [specific component], help me...";
+       ```
+    
+    3. **Use context management:**
+       - Include only relevant files
+       - Limit context window size
+       - Cache common responses
+  </Accordion>
+</AccordionGroup>
+
+### Slow Response Times
+
+<AccordionGroup>
+  <Accordion title="Symptom">
+    Kimi K2 responses taking unusually long despite being optimized for speed.
+  </Accordion>
+  
+  <Accordion title="Solution">
+    1. **Check system status:**
+       - Visit OpenRouter status page
+       - Check Moonshot AI status
+    
+    2. **Reduce prompt complexity:**
+       ```javascript
+       // Complex - slower
+       qwen "Analyze entire codebase and refactor everything with best practices"
+       
+       // Focused - faster  
+       qwen "Refactor this specific function to use async/await"
+       ```
+    
+    3. **Use appropriate temperature:**
+       ```json
+       {
+         "temperature": 0.1,  // Lower = faster, more deterministic
+         "max_tokens": 2048   // Lower = faster response
+       }
+       ```
+  </Accordion>
+</AccordionGroup>
+
+## Common Error Messages
+
+### "insufficient_quota"
+
+**Cause:** Account balance or quota exceeded
+**Solution:** Add credits to your OpenRouter/Moonshot account
+
+### "context_length_exceeded"
+
+**Cause:** Input too large for model's context window
+**Solution:** Reduce input size or break into smaller requests
+
+### "model_overloaded"
+
+**Cause:** High demand on Kimi K2 servers
+**Solution:** Implement retry logic with exponential backoff
+
+### "invalid_request_error"
+
+**Cause:** Malformed request or unsupported parameters
+**Solution:** Check API documentation and validate request format
+
+## Getting Help
+
+If you continue experiencing issues:
+
+<CardGroup cols={2}>
+  <Card title="Community Support" icon="users">
+    - OpenRouter Discord community
+    - Qwen CLI GitHub issues
+    - Stack Overflow with `kimi-k2` tag
+  </Card>
+  
+  <Card title="Official Channels" icon="support">
+    - OpenRouter support team
+    - Moonshot AI documentation
+    - Claude Code Router GitHub repository
+  </Card>
+</CardGroup>
+
+## Debug Mode
+
+Enable debug logging for detailed troubleshooting:
+
+```bash
+# Claude Code Router
+DEBUG=* ccr start
+
+# Qwen CLI  
+qwen --verbose "your command"
+
+# Environment variable
+export DEBUG=kimi-k2,openrouter
+```
+
+<Tip>
+When reporting issues, include debug logs, your configuration (with API keys redacted), and specific error messages for faster resolution.
+</Tip>

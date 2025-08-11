@@ -1,0 +1,469 @@
+---
+title: "API Configuration Examples"
+description: "Comprehensive examples for integrating Kimi K2 API across different platforms and frameworks"
+---
+
+# API Configuration Examples
+
+This guide provides practical examples for integrating Kimi K2 across various platforms and use cases.
+
+## Direct API Integration
+
+### Node.js Example
+
+```javascript
+import fetch from 'node-fetch';
+
+const OPENROUTER_API_KEY = 'sk-or-v1-your-key-here';
+const API_BASE_URL = 'https://openrouter.ai/api/v1';
+
+async function callKimiK2(messages) {
+  const response = await fetch(`${API_BASE_URL}/chat/completions`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
+      'Content-Type': 'application/json',
+      'HTTP-Referer': 'https://your-domain.com',
+      'X-Title': 'Your App Name'
+    },
+    body: JSON.stringify({
+      model: 'moonshotai/kimi-k2',
+      messages: messages,
+      temperature: 0.1,
+      max_tokens: 4096
+    })
+  });
+
+  return await response.json();
+}
+
+// Usage
+const result = await callKimiK2([
+  { role: 'user', content: 'Write a Python function to parse JSON files' }
+]);
+console.log(result.choices[0].message.content);
+```
+
+### Python Example
+
+```python
+import requests
+import json
+
+class KimiK2Client:
+    def __init__(self, api_key):
+        self.api_key = api_key
+        self.base_url = "https://openrouter.ai/api/v1"
+        self.headers = {
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+            "HTTP-Referer": "https://your-domain.com",
+            "X-Title": "Your App Name"
+        }
+    
+    def chat_completion(self, messages, temperature=0.1, max_tokens=4096):
+        payload = {
+            "model": "moonshotai/kimi-k2",
+            "messages": messages,
+            "temperature": temperature,
+            "max_tokens": max_tokens
+        }
+        
+        response = requests.post(
+            f"{self.base_url}/chat/completions",
+            headers=self.headers,
+            json=payload
+        )
+        
+        return response.json()
+
+# Usage
+client = KimiK2Client("sk-or-v1-your-key-here")
+result = client.chat_completion([
+    {"role": "user", "content": "Create a Flask API endpoint for user authentication"}
+])
+print(result["choices"][0]["message"]["content"])
+```
+
+## Framework Integrations
+
+### Express.js API Endpoint
+
+```javascript
+import express from 'express';
+import { KimiK2Client } from './kimi-client.js';
+
+const app = express();
+app.use(express.json());
+
+const kimiClient = new KimiK2Client(process.env.OPENROUTER_API_KEY);
+
+app.post('/api/generate', async (req, res) => {
+  try {
+    const { prompt, context } = req.body;
+    
+    const messages = [
+      { role: 'system', content: context || 'You are a helpful coding assistant.' },
+      { role: 'user', content: prompt }
+    ];
+    
+    const result = await kimiClient.chatCompletion(messages);
+    
+    res.json({
+      success: true,
+      response: result.choices[0].message.content,
+      usage: result.usage
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+app.listen(3000, () => {
+  console.log('Server running on port 3000');
+});
+```
+
+### Next.js API Route
+
+```javascript
+// pages/api/kimi-k2.js or app/api/kimi-k2/route.js
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Method not allowed' });
+  }
+
+  const { prompt } = req.body;
+
+  try {
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: 'moonshotai/kimi-k2',
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.1
+      })
+    });
+
+    const data = await response.json();
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to process request' });
+  }
+}
+```
+
+## Advanced Configuration
+
+### Multiple Provider Setup
+
+```json
+{
+  "LOG": false,
+  "OPENAI_API_KEY": "",
+  "OPENAI_BASE_URL": "", 
+  "OPENAI_MODEL": "",
+  "Providers": [
+    {
+      "name": "openrouter-kimi",
+      "api_base_url": "https://openrouter.ai/api/v1",
+      "api_key": "sk-or-v1-your-openrouter-key",
+      "models": ["moonshotai/kimi-k2"],
+      "max_tokens": 4096,
+      "temperature": 0.1
+    },
+    {
+      "name": "moonshot-direct", 
+      "api_base_url": "https://api.moonshot.ai/anthropic",
+      "api_key": "your-moonshot-key",
+      "models": ["kimi-k2"],
+      "max_tokens": 4096,
+      "temperature": 0.1
+    }
+  ],
+  "Router": {
+    "default": "openrouter-kimi,moonshotai/kimi-k2",
+    "fallback": "moonshot-direct,kimi-k2"
+  }
+}
+```
+
+### Environment Configuration
+
+Create a `.env` file for your project:
+
+```bash
+# OpenRouter Configuration
+OPENROUTER_API_KEY=sk-or-v1-your-key-here
+OPENROUTER_BASE_URL=https://openrouter.ai/api/v1
+KIMI_MODEL=moonshotai/kimi-k2
+
+# Direct Moonshot Configuration (optional)
+MOONSHOT_API_KEY=your-moonshot-key
+MOONSHOT_BASE_URL=https://api.moonshot.ai/anthropic
+
+# Application Settings
+MAX_TOKENS=4096
+TEMPERATURE=0.1
+TIMEOUT=30000
+```
+
+## Specialized Use Cases
+
+### Code Generation Service
+
+```javascript
+class CodeGenerationService {
+  constructor(apiKey) {
+    this.apiKey = apiKey;
+    this.baseURL = 'https://openrouter.ai/api/v1';
+  }
+
+  async generateCode(language, description, context = '') {
+    const prompt = `
+Context: ${context}
+Language: ${language}
+Task: ${description}
+
+Generate clean, well-documented, production-ready code.
+Include error handling and follow best practices.
+`;
+
+    const response = await this.makeRequest([
+      { role: 'system', content: 'You are an expert software engineer.' },
+      { role: 'user', content: prompt }
+    ]);
+
+    return this.extractCode(response);
+  }
+
+  async refactorCode(code, improvements) {
+    const prompt = `
+Refactor this code with the following improvements:
+${improvements.join('\n- ')}
+
+Original code:
+\`\`\`
+${code}
+\`\`\`
+
+Provide the refactored version with explanations for changes.
+`;
+
+    return await this.makeRequest([
+      { role: 'user', content: prompt }
+    ]);
+  }
+
+  async makeRequest(messages) {
+    const response = await fetch(`${this.baseURL}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${this.apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: 'moonshotai/kimi-k2',
+        messages,
+        temperature: 0.1,
+        max_tokens: 4096
+      })
+    });
+
+    const data = await response.json();
+    return data.choices[0].message.content;
+  }
+
+  extractCode(response) {
+    const codeBlocks = response.match(/```[\s\S]*?```/g);
+    return codeBlocks ? codeBlocks.map(block => 
+      block.replace(/```\w*\n/, '').replace(/```$/, '')
+    ) : [];
+  }
+}
+```
+
+### Batch Processing
+
+```javascript
+class BatchProcessor {
+  constructor(apiKey, concurrency = 3) {
+    this.apiKey = apiKey;
+    this.concurrency = concurrency;
+    this.queue = [];
+    this.processing = 0;
+  }
+
+  async processBatch(tasks) {
+    return Promise.all(
+      tasks.map(task => this.processTask(task))
+    );
+  }
+
+  async processTask(task) {
+    while (this.processing >= this.concurrency) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+
+    this.processing++;
+    
+    try {
+      const result = await this.makeAPICall(task);
+      return { task, result, success: true };
+    } catch (error) {
+      return { task, error: error.message, success: false };
+    } finally {
+      this.processing--;
+    }
+  }
+
+  async makeAPICall(task) {
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${this.apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: 'moonshotai/kimi-k2',
+        messages: task.messages,
+        temperature: 0.1
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`API call failed: ${response.statusText}`);
+    }
+
+    return await response.json();
+  }
+}
+```
+
+## Error Handling and Retry Logic
+
+```javascript
+class RobustKimiClient {
+  constructor(apiKey, options = {}) {
+    this.apiKey = apiKey;
+    this.baseURL = 'https://openrouter.ai/api/v1';
+    this.maxRetries = options.maxRetries || 3;
+    this.retryDelay = options.retryDelay || 1000;
+    this.timeout = options.timeout || 30000;
+  }
+
+  async chatCompletion(messages, options = {}) {
+    let lastError;
+    
+    for (let attempt = 1; attempt <= this.maxRetries; attempt++) {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), this.timeout);
+
+        const response = await fetch(`${this.baseURL}/chat/completions`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${this.apiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            model: 'moonshotai/kimi-k2',
+            messages,
+            ...options
+          }),
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+          if (response.status === 429) {
+            // Rate limit - wait and retry
+            await this.sleep(this.retryDelay * attempt);
+            continue;
+          }
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        return await response.json();
+      } catch (error) {
+        lastError = error;
+        
+        if (attempt < this.maxRetries && this.shouldRetry(error)) {
+          await this.sleep(this.retryDelay * attempt);
+          continue;
+        }
+        break;
+      }
+    }
+    
+    throw lastError;
+  }
+
+  shouldRetry(error) {
+    return error.name === 'AbortError' || 
+           error.message.includes('network') ||
+           error.message.includes('timeout');
+  }
+
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+}
+```
+
+## Performance Optimization
+
+### Token Usage Tracking
+
+```javascript
+class TokenTracker {
+  constructor() {
+    this.usage = {
+      totalTokens: 0,
+      inputTokens: 0,
+      outputTokens: 0,
+      totalCost: 0
+    };
+  }
+
+  trackUsage(result) {
+    if (result.usage) {
+      this.usage.inputTokens += result.usage.prompt_tokens || 0;
+      this.usage.outputTokens += result.usage.completion_tokens || 0;
+      this.usage.totalTokens += result.usage.total_tokens || 0;
+      
+      // Kimi K2 pricing: $0.60 input, $2.50 output per 1M tokens
+      const inputCost = (result.usage.prompt_tokens || 0) * 0.0000006;
+      const outputCost = (result.usage.completion_tokens || 0) * 0.0000025;
+      this.usage.totalCost += inputCost + outputCost;
+    }
+  }
+
+  getReport() {
+    return {
+      ...this.usage,
+      averageTokensPerRequest: this.usage.totalTokens / this.requestCount,
+      costPerRequest: this.usage.totalCost / this.requestCount
+    };
+  }
+}
+```
+
+## Next Steps
+
+- Implement error handling and retry logic for production use
+- Monitor token usage and costs through OpenRouter dashboard
+- Explore the [Troubleshooting Guide](/kimi-k2/troubleshooting) for common issues
+- Consider caching strategies for frequently requested code patterns
+
+<Tip>
+Start with simple integrations and gradually add complexity as you understand Kimi K2's response patterns and your usage requirements.
+</Tip>
