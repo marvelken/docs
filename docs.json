@@ -14,22 +14,16 @@
   },
   "navigation": {
     "tabs": [
-        {
+      {
         "tab": "Home",
-        "pages": [
-          "index"
-        ]
+        "pages": ["index"]
       },
       {
         "tab": "Documentation",
         "groups": [
           {
             "group": "Getting Started",
-            "pages": [
-              "introduction",
-              "quickstart", 
-              "authentication"
-            ]
+            "pages": ["introduction", "quickstart", "authentication"]
           },
           {
             "group": "Model Integrations",
@@ -39,17 +33,15 @@
               "integrations/grok-4"
             ]
           },
+          
           {
             "group": "Examples",
-            "pages": [
-              "examples/basic-usage"
-            ]
+            "pages": ["examples/basic-usage"]
           },
+          
           {
             "group": "API Reference",
-            "pages": [
-              "api-reference/commands"
-            ]
+            "pages": ["api-reference/commands"]
           }
         ]
       }
