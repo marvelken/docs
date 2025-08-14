@@ -12,21 +12,20 @@
     "light": "#3B82F6",
     "dark": "#1D4ED8"
   },
-  "redirects": [
-    {
-      "source": "/",
-      "destination": "/landing"
-    }
-  ],
   "navigation": {
     "tabs": [
+        {
+        "tab": "Home",
+        "pages": [
+          "index"
+        ]
+      },
       {
         "tab": "Documentation",
         "groups": [
           {
             "group": "Getting Started",
             "pages": [
-              
               "introduction",
               "quickstart", 
               "authentication"
